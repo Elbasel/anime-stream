@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  position: relative;
+  margin-top: 2em;
+}
+
+.container > img {
+  width: 100%;
+  height: calc(100vh - 60px);
+  object-fit: cover;
+}

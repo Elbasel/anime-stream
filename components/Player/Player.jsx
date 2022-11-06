@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Player as VimePlayer, DefaultUi, Hls } from "@vime/react";
 import "@vime/core/themes/default.css";
 import styles from "./Player.module.scss";
+import SkipIcon from "./skip.png";
 
 import {
   Controls,
@@ -24,6 +25,9 @@ import {
 export const Player = ({ url }) => {
   const playerRef = useRef(null);
 
+  const seek = (duration) => {
+    playerRef.current.currentTime += duration;
+  };
   return (
     <VimePlayer
       style={{ "--vm-settings-max-height": "200px" }}
@@ -43,37 +47,21 @@ export const Player = ({ url }) => {
             "--vm-controls-spacing": "80px",
           }}
         >
-          {/* <Control
-            onClick={}
-            keys="p"
-            label="Previous Episode"
-          >
-            <ChevronDoubleLeftIcon style={{ width: "10px", color: "white" }} />
-            <Tooltip>previous(p)</Tooltip>
-          </Control> */}
+          <img
+            className={styles.icon}
+            src={SkipIcon.src}
+            onClick={() => seek(-5)}
+          />
 
           <PlaybackControl hideTooltip keys="k/ " />
-
-          {/* <Control
-            onClick={() => dispatch(incrementEpisode())}
-            keys="n"
-            label="Next Episode"
-          >
-            <ChevronDoubleRightIcon className="w-9 text-white" />
-            <Tooltip className="text-xs">next(n)</Tooltip>
-          </Control> */}
+          <img
+            className={styles.icon}
+            src={SkipIcon.src}
+            onClick={() => seek(5)}
+          />
         </Controls>
 
-        {/* Default Controls */}
         <Scrim gradient="up" />
-
-        {/* {isMobile && ( */}
-        <Controls pin="topLeft">
-          <ControlSpacer />
-          <VolumeControl />
-          <SettingsControl />
-        </Controls>
-        {/* )} */}
 
         <Controls pin="bottomLeft" direction={"column-reverse"}>
           <ControlGroup space={"top"}>

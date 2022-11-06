@@ -21,7 +21,9 @@
 }
 
 .mangekyou[animate="1"] {
-  animation: spin 5s ease-in-out;
+  --duration: 5s;
+  --easing: cubic-bezier(1, -0.53, 0, 1.99);
+  animation: spin var(--duration) var(--easing);
 }
 
 .mangekyou .point {
@@ -34,7 +36,9 @@
 }
 
 .mangekyou[animate="1"] .point {
-  animation: shine 5s ease-in-out;
+  --duration: 5s;
+  --easing: cubic-bezier(1, -0.53, 0, 1.99);
+  animation: shine var(--duration) var(--easing);
 }
 
 .mangekyou .point:nth-child(1) {

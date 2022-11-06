@@ -15,12 +15,14 @@
 #__next {
   min-height: 100vh;
   padding-block-end: 30px;
+  margin-block-end: 30px;
 }
 
 body {
   font-family: "Inter", sans-serif;
   background-color: black;
   color: white;
+  scroll-behavior: smooth;
 }
 
 input,
@@ -79,4 +81,16 @@ input:-webkit-autofill:focus {
 *::-webkit-scrollbar-track {
   border-radius: 24px;
   background-color: black;
+}
+
+img {
+  max-width: 100%;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: white !important;
 }

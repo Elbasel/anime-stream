@@ -30,7 +30,32 @@
 
 .logo {
   font-size: 7px;
-  // position: absolute;
-  // left: 50%;
-  // transform: translateX(-50%);
+}
+
+.listIcon {
+  position: relative;
+}
+
+.counter {
+  position: absolute;
+  background-color: tomato;
+  color: white;
+  top: -0.2em;
+  right: -0.8em;
+  width: 1.3em;
+  height: 1.3em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  animation: scale-in 1s;
+}
+
+@keyframes scale-in {
+  50% {
+    scale: (1.5);
+  }
+
+  100% {
+    scale: (1);
+  }
 }

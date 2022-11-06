@@ -1,3 +1,12 @@
 .player {
   --vm-settings-max-height: 200px;
 }
+
+.icon {
+  --width: 20px;
+  width: var(--width);
+  height: var(--width);
+}
+.icon:nth-child(3) {
+  transform: scaleX(-1);
+}

@@ -1,0 +1,15 @@
+.Card {
+  display: flex;
+  align-items: center;
+}
+
+.Card img {
+  height: 200px;
+  width: 140px;
+  object-fit: cover;
+}
+
+.Card h3 {
+  margin-left: 0.4em;
+  font-size: 1.5em;
+}

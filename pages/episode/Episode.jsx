@@ -26,23 +26,19 @@ export default function Episode() {
   const getStreamingUrl = (id) => {
     if (id == null) return;
     const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
-    // console.log(fetchURl);
     fetch(fetchURl)
       .then((response) => response.json())
       .then((animelist) => {
         setStreamingUrl(animelist?.sources_bk?.[0].file);
-        // console.log(animelist);
       });
   };
 
   const getAnimeDetails = (id) => {
     if (id == null) return;
-    // console.log("details id: ", id);
     fetch(`https://gogoanime.consumet.org/anime-details/${id}`)
       .then((response) => response.json())
       .then((animelist) => {
         setEpisodes(animelist?.episodesList);
-        // console.log(animelist);
         setAnimeTitle(animelist?.animeTitle);
       });
   };
@@ -65,11 +61,11 @@ export default function Episode() {
   }, [id]);
 
   useEffect(() => {
-    if (id == null) return;
+    if (id == null || episodeNumber === 1) return;
     saveToLocalStorage(`episodeNum-${id}`, episodeNumber);
   }, [episodeNumber]);
 
-  if (!streamingUrl || !animeTitle || episodes.length === 0) return <Loader />;
+  if (!streamingUrl) return <Loader />;
   return (
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
@@ -79,7 +75,11 @@ export default function Episode() {
       {episodes && (
         <div className={styles.episodeControls}>
           <BsChevronBarLeft
-            onClick={() => setEpisodeNumber((prevEpisode) => prevEpisode + 1)}
+            onClick={() =>
+              setEpisodeNumber((prevEpisode) =>
+                prevEpisode - 1 > 0 ? prevEpisode - 1 : prevEpisode
+              )
+            }
           />
           <Select
             options={[...episodes].reverse().map((ep) => +ep.episodeNum)}
@@ -87,7 +87,15 @@ export default function Episode() {
             value={episodeNumber}
             onValueChange={(newValue) => setEpisodeNumber(+newValue)}
           />
-          <BsChevronBarRight />
+          <BsChevronBarRight
+            onClick={() =>
+              setEpisodeNumber((prevEpisode) =>
+                prevEpisode + 1 <= episodes.length
+                  ? prevEpisode + 1
+                  : prevEpisode
+              )
+            }
+          />
         </div>
       )}
     </div>

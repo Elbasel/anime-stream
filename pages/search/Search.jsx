@@ -1,6 +1,6 @@
 import { Loader } from "@components/Loader";
 import debounce from "lodash.debounce";
-import React from "react";
+import React, { useContext } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [dub, setDub] = useLocalStorage("Dub", false);
 
-  const getResult = useCallback(
+  const getResults = useCallback(
     debounce((keyword, dub) => {
       if (keyword == "") return;
       setLoading(true);
@@ -40,6 +40,7 @@ export default function Search() {
             );
           }
           setSearchResults(animelist);
+          document.documentElement.scrollTop = 0;
           setLoading(false);
         });
     }, 500),
@@ -47,10 +48,9 @@ export default function Search() {
   );
 
   useEffect(() => {
-    getResult(searchValue, dub);
+    getResults(searchValue, dub);
   }, [searchValue, dub]);
 
-  console.log({ dub });
   return (
     <div className={styles.Search}>
       <div className={styles.filtersWrapper}></div>
@@ -76,14 +76,15 @@ export default function Search() {
       )}
 
       <div className={styles.Cards}>
-        {searchResults.map((result) => (
-          <AnimeCard
-            key={result.animeId}
-            id={result.animeId}
-            title={result.animeTitle}
-            imgUrl={result.animeImg}
-          />
-        ))}
+        {!loading &&
+          searchResults.map((result) => (
+            <AnimeCard
+              key={result.animeId}
+              id={result.animeId}
+              title={result.animeTitle}
+              imgUrl={result.animeImg}
+            />
+          ))}
       </div>
     </div>
   );
