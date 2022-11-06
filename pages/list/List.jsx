@@ -43,6 +43,8 @@ export default function List() {
             title={anime.animeTitle}
             imgUrl={anime.animeImg}
             id={animeId}
+            lastEpisodeWatched={lastEpisodeWatched}
+            currentEpisode={anime.episodesList.length}
           />
         );
       })}
