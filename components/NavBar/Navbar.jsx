@@ -1,10 +1,11 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { VscSearch } from "react-icons/vsc";
 import { BsListNested } from "react-icons/bs";
 import styles from "./Navbar.module.scss";
 import { getNewEpisodeCount } from "util/newEpisode";
+import { ListContext } from "context/ListContext";
 
 const Logo = dynamic(
   () => import("@components/Logo/Logo").then((mod) => mod.Logo),
@@ -12,7 +13,9 @@ const Logo = dynamic(
 );
 
 export function Navbar() {
-  const fetchNewEpisodeCount = async () => {
+  const { getList } = useContext(ListContext);
+
+  const fetchNewEpisodeCount = async (fetchList) => {
     const count = await getNewEpisodeCount(["chainsaw-man"]);
     setNewEpisodeCount(count);
   };
@@ -20,7 +23,7 @@ export function Navbar() {
   const [newEpisodeCount, setNewEpisodeCount] = useState(0);
 
   useEffect(() => {
-    fetchNewEpisodeCount();
+    fetchNewEpisodeCount(getList());
   }, []);
 
   return (

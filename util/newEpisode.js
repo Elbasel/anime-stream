@@ -16,6 +16,7 @@ export async function getNewEpisodeCount(animeIds) {
         const newEpisode = lastEpisodeWatched < anime.episodesList.length;
         if (newEpisode) counter++
     })
+    // debugger
     return counter
 
 }

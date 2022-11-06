@@ -6,7 +6,7 @@ import { fetchAll } from "util/fetchAnimeList";
 import { getFromLocalStorage } from "util/localStorage";
 import styles from "./List.module.scss";
 
-export function List() {
+export default function List() {
   const { getList } = useContext(ListContext);
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
