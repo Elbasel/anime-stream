@@ -9,8 +9,8 @@ export function Carousel({ children }) {
   return (
     <>
       <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]}>
-        {children.map((elem) => (
-          <SwiperSlide>{elem}</SwiperSlide>
+        {children.map((elem, i) => (
+          <SwiperSlide key={i}>{elem}</SwiperSlide>
         ))}
       </Swiper>
     </>

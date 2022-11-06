@@ -16,7 +16,7 @@ export function Navbar() {
   const { getList } = useContext(ListContext);
 
   const fetchNewEpisodeCount = async (fetchList) => {
-    const count = await getNewEpisodeCount(["chainsaw-man"]);
+    const count = await getNewEpisodeCount(fetchList);
     setNewEpisodeCount(count);
   };
 
