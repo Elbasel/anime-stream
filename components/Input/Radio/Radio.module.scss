@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  width: fit-content;
+  // height: 50px;
+  border-radius: 9999px;
+}
+
+.container input[type="radio"] {
+  appearance: none;
+  display: none;
+}
+
+.container label {
+  // font-size: 20px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  text-align: center;
+  border-radius: 9999px;
+  // overflow: hidden;
+  transition: linear 0.3s;
+  color: #6e6e6edd;
+}
+
+.container input[type="radio"]:checked + label {
+  background-color: black;
+  color: #f1f3f5;
+  font-weight: 900;
+  transition: 0.3s;
+}

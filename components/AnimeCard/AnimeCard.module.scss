@@ -1,0 +1,47 @@
+.Card {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: relative;
+}
+
+.Wrapper {
+  padding: 0.4em;
+}
+
+.Card img {
+  --min-height: 75%;
+  max-width: 100%;
+  min-height: var(--min-height);
+  object-fit: cover;
+  object-position: top;
+}
+
+@media screen and (min-width: 600px) {
+  .Card img {
+    --min-height: 80%;
+  }
+}
+
+.Card div:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 40%;
+  background-position: center 101%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(transparent, #000000, #414141);
+  pointer-events: none;
+}
+
+.Card div:last-child {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  z-index: 8;
+}

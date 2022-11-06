@@ -1,0 +1,36 @@
+.Nav svg {
+  width: 2em;
+  height: 2em;
+  fill: tomato;
+}
+
+.Nav {
+  padding: 1em;
+  box-shadow: rgba(255, 255, 255, 0.071) 0px 3px 8px;
+  display: flex;
+  z-index: 999999;
+}
+
+.Nav > div {
+  flex: 1 100%;
+  display: flex;
+  align-items: center;
+}
+
+.Nav > div:first-child {
+  justify-content: flex-start;
+}
+.Nav > div:nth-child(2) {
+  flex: 0;
+}
+
+.Nav > div:last-child {
+  justify-content: flex-end;
+}
+
+.logo {
+  font-size: 7px;
+  // position: absolute;
+  // left: 50%;
+  // transform: translateX(-50%);
+}

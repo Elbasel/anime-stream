@@ -1,0 +1,36 @@
+.Episode h1 {
+  padding: 0.3em;
+  font-size: 1.3em;
+  text-align: center;
+  margin-block: 25px;
+  font-size: 2em;
+}
+
+.episodeControls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  // max-width: 80%;
+}
+
+.episodeControls svg {
+  width: 3em;
+  height: 3em;
+  fill: rgb(34, 34, 128);
+}
+
+.episodeControls select {
+  padding: 1em;
+  text-align: center;
+  border-radius: 0.3em;
+  font-size: 1.5em;
+}
+
+.playerWrapper {
+  width: 80%;
+  min-height: 200px;
+  max-height: 400px;
+  margin: 0 auto;
+}
