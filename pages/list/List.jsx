@@ -33,18 +33,21 @@ export default function List() {
       {userList.map((anime) => {
         const animeId =
           anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
-        const lastEpisodeWatched = parseInt(
+        let lastEpisodeWatched = parseInt(
           getFromLocalStorage(`episodeNum-${animeId}`)
         );
+
+        if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1
         const newEpisode = lastEpisodeWatched < anime.episodesList.length;
         return (
           <ListAnimeCard
-            key={anime.animeId}
+            key={animeId}
             title={anime.animeTitle}
             imgUrl={anime.animeImg}
             id={animeId}
             lastEpisodeWatched={lastEpisodeWatched}
             currentEpisode={anime.episodesList.length}
+            newEpisode={newEpisode}
           />
         );
       })}

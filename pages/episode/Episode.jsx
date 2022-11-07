@@ -23,8 +23,7 @@ export default function Episode() {
   const [episodeNumber, setEpisodeNumber] = useState(1);
   const [animeTitle, setAnimeTitle] = useState("");
 
-  const getStreamingUrl = (id) => {
-    if (id == null) return;
+  const getStreamingUrl = (id, episodeNumber) => {
     const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
     fetch(fetchURl)
       .then((response) => response.json())
@@ -34,7 +33,6 @@ export default function Episode() {
   };
 
   const getAnimeDetails = (id) => {
-    if (id == null) return;
     fetch(`https://gogoanime.consumet.org/anime-details/${id}`)
       .then((response) => response.json())
       .then((animelist) => {
@@ -44,10 +42,14 @@ export default function Episode() {
   };
 
   useEffect(() => {
-    getStreamingUrl(id);
+    if (id == null) return;
+
+    getStreamingUrl(id, episodeNumber);
   }, [id, episodeNumber]);
 
   useEffect(() => {
+    if (id == null) return;
+
     getAnimeDetails(id);
   }, [id]);
 

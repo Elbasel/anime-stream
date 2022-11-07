@@ -6,10 +6,14 @@ import "swiper/css/pagination";
 
 import { ListContextProvider } from 'context/ListContext'
 import { Toaster } from 'react-hot-toast';
+import Head from 'next/head';
 
 
 function MyApp({ Component, pageProps }) {
   return <>
+    <Head>
+      <title>Sharingal Stream</title>
+    </Head>
     <ListContextProvider>
       <Navbar />
 
