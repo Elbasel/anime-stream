@@ -12,12 +12,16 @@ export function ListContextProvider({ children }) {
     setList((prevList) => prevList.concat([id]));
   };
 
+  const removeFromList = (id) => {
+    setList((prevList) => prevList.filter((elem) => elem !== id));
+  };
+
   const getList = () => {
     return list;
   };
 
   return (
-    <ListContext.Provider value={{ addToList, getList }}>
+    <ListContext.Provider value={{ addToList, list, removeFromList }}>
       {children}
     </ListContext.Provider>
   );

@@ -7,22 +7,20 @@ import { getFromLocalStorage } from "util/localStorage";
 import styles from "./List.module.scss";
 
 export default function List() {
-  const { getList } = useContext(ListContext);
+  const { list } = useContext(ListContext);
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const animeIds = getList();
-
   const getResults = async () => {
     setLoading(true);
-    let fetchList = await fetchAll(animeIds);
+    let fetchList = await fetchAll(list);
     setUserList(fetchList);
     setLoading(false);
   };
 
   useEffect(() => {
     getResults();
-  }, []);
+  }, [list]);
 
   return (
     <div className={styles.container}>
@@ -37,7 +35,7 @@ export default function List() {
           getFromLocalStorage(`episodeNum-${animeId}`)
         );
 
-        if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1
+        if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1;
         const newEpisode = lastEpisodeWatched < anime.episodesList.length;
         return (
           <ListAnimeCard

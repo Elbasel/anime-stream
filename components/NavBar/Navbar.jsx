@@ -13,7 +13,7 @@ const Logo = dynamic(
 );
 
 export function Navbar() {
-  const { getList } = useContext(ListContext);
+  const { list } = useContext(ListContext);
 
   const fetchNewEpisodeCount = async (fetchList) => {
     const count = await getNewEpisodeCount(fetchList);
@@ -23,8 +23,8 @@ export function Navbar() {
   const [newEpisodeCount, setNewEpisodeCount] = useState(0);
 
   useEffect(() => {
-    fetchNewEpisodeCount(getList());
-  }, []);
+    fetchNewEpisodeCount(list);
+  }, [list]);
 
   return (
     <nav className={styles.Nav}>
