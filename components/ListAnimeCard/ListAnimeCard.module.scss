@@ -6,7 +6,6 @@
   border: 1px solid rgba(255, 255, 255, 0.211);
   user-select: none; /* Standard syntax */
   -webkit-user-drag: none;
-
 }
 
 .Card img {
@@ -26,8 +25,8 @@
   text-overflow: ellipsis;
   user-select: none; /* Standard syntax */
 
-
   background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -60,6 +59,7 @@
 .aside div > p,
 .aside > div > h4 {
   background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -68,22 +68,27 @@
   font-size: 1em;
 }
 
-
-
 .New {
-    background: linear-gradient(-45deg, #000000, #c44c28, #000000, #092a36, #000000);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    // border: 0;
+  background: linear-gradient(
+    -45deg,
+    #000000,
+    #c44c28,
+    #000000,
+    #092a36,
+    #000000
+  );
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  // border: 0;
 }
 
 .Options {
   background-color: black;
   height: 100%;
   display: flex;
-  padding: .3em;
-  border-radius: .3em;
-  gap: .4em;
+  padding: 0.3em;
+  border-radius: 0.3em;
+  gap: 0.4em;
 }
 
 .Options > div {
@@ -91,13 +96,12 @@
   width: 50%;
   display: flex;
   padding: 1em;
-  border-radius: .7em;
+  border-radius: 0.7em;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1em;
 }
-
 
 .Options > div > svg {
   width: 1em;
@@ -112,15 +116,14 @@
   }
 }
 
-
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

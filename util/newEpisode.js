@@ -10,9 +10,10 @@ export async function getNewEpisodeCount(animeIds) {
     fetchList.forEach(anime => {
         const animeId =
             anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
-        const lastEpisodeWatched = parseInt(
+        let lastEpisodeWatched = parseInt(
             getFromLocalStorage(`episodeNum-${animeId}`)
         );
+        if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1
         const newEpisode = lastEpisodeWatched < anime.episodesList.length;
         if (newEpisode) counter++
     })
