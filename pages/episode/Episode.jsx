@@ -20,7 +20,7 @@ export default function Episode() {
 
   const [streamingUrl, setStreamingUrl] = useState("");
   const [episodes, setEpisodes] = useState([]);
-  const [episodeNumber, setEpisodeNumber] = useState(1);
+  const [episodeNumber, setEpisodeNumber] = useState(null);
   const [animeTitle, setAnimeTitle] = useState("");
 
   const getStreamingUrl = (id, episodeNumber) => {
@@ -42,7 +42,7 @@ export default function Episode() {
   };
 
   useEffect(() => {
-    if (id == null) return;
+    if (id == null || episodeNumber == null) return;
 
     getStreamingUrl(id, episodeNumber);
   }, [id, episodeNumber]);
@@ -59,6 +59,8 @@ export default function Episode() {
     const savedEpisode = getFromLocalStorage(`episodeNum-${id}`);
     if (savedEpisode != null) {
       setEpisodeNumber(savedEpisode);
+    } else {
+      setEpisodeNumber(1);
     }
   }, [id]);
 
@@ -68,6 +70,8 @@ export default function Episode() {
   }, [episodeNumber]);
 
   if (!streamingUrl) return <Loader />;
+  console.log({ episodeNumber });
+  console.log(streamingUrl);
   return (
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
