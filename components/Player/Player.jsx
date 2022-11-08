@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Player as VimePlayer, DefaultUi, Hls } from "@vime/react";
 import "@vime/core/themes/default.css";
 import styles from "./Player.module.scss";
@@ -22,12 +22,21 @@ import {
   CaptionControl,
   Tooltip,
 } from "@vime/react";
+import { saveToLocalStorage } from "util/localStorage";
 export const Player = ({ url }) => {
   const playerRef = useRef(null);
 
   const seek = (duration) => {
     playerRef.current.currentTime += duration;
   };
+
+  useEffect(() => {
+    let localRef = null;
+    if (playerRef.current) localRef = playerRef.current;
+    return () => {
+      console.log({ time: localRef.currentTime });
+    };
+  }, []);
   return (
     <VimePlayer
       style={{ "--vm-settings-max-height": "200px" }}

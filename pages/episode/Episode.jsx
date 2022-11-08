@@ -65,7 +65,7 @@ export default function Episode() {
   }, [id]);
 
   useEffect(() => {
-    if (id == null || episodeNumber === 1) return;
+    if (id == null || episodeNumber == null) return;
     saveToLocalStorage(`episodeNum-${id}`, episodeNumber);
   }, [episodeNumber]);
 
