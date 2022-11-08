@@ -24,6 +24,7 @@ export default function Episode() {
   const [animeTitle, setAnimeTitle] = useState("");
 
   const getStreamingUrl = (id, episodeNumber) => {
+    setStreamingUrl(null);
     const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
     fetch(fetchURl)
       .then((response) => response.json())
