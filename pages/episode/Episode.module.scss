@@ -30,7 +30,12 @@
 
 .playerWrapper {
   width: 80%;
-  min-height: 200px;
-  max-height: 400px;
+  height: 300px;
   margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+  .playerWrapper {
+    width: 35%;
+  }
 }

@@ -23,9 +23,15 @@ export default function Episode() {
   const [episodeNumber, setEpisodeNumber] = useState(null);
   const [animeTitle, setAnimeTitle] = useState("");
 
-  const getStreamingUrl = (id, episodeNumber) => {
+  const getStreamingUrl = (id, episodeNumber, episodes) => {
     setStreamingUrl(null);
+    const actualEpisodeNumber = [...episodes]
+      .reverse()
+      [episodeNumber - 1].episodeUrl.match(/(?<=\-episode-).*/gm)[0];
+    console.log({ actualEpisodeNumber });
+    // const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${actualEpisodeNumber}`;
     const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
+    // console.log({ fetchURl });
     fetch(fetchURl)
       .then((response) => response.json())
       .then((animelist) => {
@@ -38,15 +44,16 @@ export default function Episode() {
       .then((response) => response.json())
       .then((animelist) => {
         setEpisodes(animelist?.episodesList);
+        console.log({ animelist });
         setAnimeTitle(animelist?.animeTitle);
       });
   };
 
   useEffect(() => {
-    if (id == null || episodeNumber == null) return;
+    if (id == null || episodeNumber == null || episodes.length === 0) return;
 
-    getStreamingUrl(id, episodeNumber);
-  }, [id, episodeNumber]);
+    getStreamingUrl(id, episodeNumber, episodes);
+  }, [id, episodeNumber, episodes]);
 
   useEffect(() => {
     if (id == null) return;
@@ -70,14 +77,12 @@ export default function Episode() {
     saveToLocalStorage(`episodeNum-${id}`, episodeNumber);
   }, [episodeNumber]);
 
-  if (!streamingUrl) return <Loader />;
-  console.log({ episodeNumber });
-  console.log(streamingUrl);
+  // if (!streamingUrl) return <Loader />;
   return (
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
       <div className={styles.playerWrapper}>
-        <Player url={streamingUrl} />
+        {streamingUrl ? <Player url={streamingUrl} /> : <Loader />}
       </div>
       {episodes && (
         <div className={styles.episodeControls}>
