@@ -8,12 +8,10 @@ export function Swipe({ MainElem, HiddenElem, className }) {
   const [optionsShown, setOptionsShown] = useState(false);
 
   const showOptions = () => {
-    console.log("show");
     setOptionsShown(true);
   };
 
   const hideOptions = () => {
-    console.log("hide");
     setOptionsShown(false);
   };
   return (

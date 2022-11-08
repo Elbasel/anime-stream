@@ -14,6 +14,7 @@ export function ListAnimeCard({
   currentEpisode,
   newEpisode,
   animating,
+  notificationsOn,
 }) {
   return (
     <Swipe
@@ -29,7 +30,7 @@ export function ListAnimeCard({
           animating={animating}
         />
       )}
-      HiddenElem={() => <Options id={id} />}
+      HiddenElem={() => <Options id={id} notificationsOn={notificationsOn} />}
     />
   );
 }
@@ -70,13 +71,15 @@ const Card = ({
   );
 };
 
-const Options = ({ id }) => {
+const Options = ({ id, notificationsOn }) => {
   const { removeFromList, toggleNotifications } = useContext(ListContext);
   return (
     <div className={styles.Options}>
       <div
         onClick={() => toggleNotifications(id)}
-        className={styles.OptionsNotifications}
+        className={`${styles.OptionsNotifications} ${
+          notificationsOn ? styles.notificationsOn : ""
+        }`}
       >
         <HiBellAlert />
         <h4>Notifications</h4>

@@ -3,11 +3,7 @@
   touch-action: auto !important;
   position: relative;
   display: flex;
-  overflow-x: hidden;
-}
-
-.Container {
-  position: relative;
+  overflow: hidden;
 }
 
 .Options {

@@ -14,7 +14,6 @@ export function ListContextProvider({ children }) {
   const addToList = (id) => {
     if (list.includes(id)) return;
     setList((prevList) => prevList.concat([id]));
-    setNotificationsList((prevList) => prevList.concat([id]));
   };
 
   const removeFromList = (id) => {
