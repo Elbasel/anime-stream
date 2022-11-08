@@ -14,18 +14,8 @@ export function ListAnimeCard({
   currentEpisode,
   newEpisode,
   animating,
-  animatingUp,
 }) {
   return (
-    // <Card
-    //   imgUrl={imgUrl}
-    //   title={title}
-    //   id={id}
-    //   lastEpisodeWatched={lastEpisodeWatched}
-    //   currentEpisode={currentEpisode}
-    //   newEpisode={newEpisode}
-    //   animating={animating}
-    // />
     <Swipe
       className={`${animating ? styles.animating : ""}`}
       MainElem={() => (
@@ -55,7 +45,6 @@ const Card = ({
 }) => {
   const [mouseStart, setMouseStart] = useState(null);
   const [xDistance, setXDistance] = useState(0);
-  console.log("render");
   return (
     <Link
       // prevent click event in case user swipes on card
@@ -82,10 +71,13 @@ const Card = ({
 };
 
 const Options = ({ id }) => {
-  const { removeFromList } = useContext(ListContext);
+  const { removeFromList, toggleNotifications } = useContext(ListContext);
   return (
     <div className={styles.Options}>
-      <div className={styles.OptionsNotifications}>
+      <div
+        onClick={() => toggleNotifications(id)}
+        className={styles.OptionsNotifications}
+      >
         <HiBellAlert />
         <h4>Notifications</h4>
       </div>

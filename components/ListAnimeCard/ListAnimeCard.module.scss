@@ -147,7 +147,7 @@
 
 .New::before {
   z-index: -1;
-  overflow: hidden;
+  // overflow: hidden;
   content: "";
   display: block;
   width: 200%;
@@ -155,22 +155,21 @@
   position: absolute;
   background: linear-gradient(
     -45deg,
+    #092a36,
     #000000,
     #c44c28,
     #000000,
     #092a36,
-    #000000
+    #000000,
+    #c44c28
   );
   background-repeat: no-repeat;
-  animation: spring 15s ease infinite alternate;
+  animation: spring 3s ease-in-out infinite alternate;
   border: 0;
 }
 
 // animating using background-position caused flicker in android chrome
 @keyframes spring {
-  50% {
-    transform: translateX(0);
-  }
   100% {
     transform: translateX(-50%);
   }

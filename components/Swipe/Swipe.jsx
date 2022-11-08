@@ -16,7 +16,6 @@ export function Swipe({ MainElem, HiddenElem, className }) {
     console.log("hide");
     setOptionsShown(false);
   };
-  console.log(className);
   return (
     <Swiper
       node="div"

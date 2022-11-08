@@ -7,7 +7,7 @@ import { getFromLocalStorage } from "util/localStorage";
 import styles from "./List.module.scss";
 
 export default function List() {
-  const { list } = useContext(ListContext);
+  const { list, notificationsList } = useContext(ListContext);
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,7 @@ export default function List() {
         const animeId =
           anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
         return list.includes(animeId)
-          ? { ...anime, animatingUp: true }
+          ? { ...anime }
           : { ...anime, animating: true };
       })
     );
@@ -57,7 +57,9 @@ export default function List() {
         );
 
         if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1;
-        const newEpisode = lastEpisodeWatched < anime.episodesList.length;
+        const newEpisode =
+          notificationsList.includes(animeId) &&
+          lastEpisodeWatched < anime.episodesList.length;
         return (
           <ListAnimeCard
             key={animeId}
@@ -68,7 +70,6 @@ export default function List() {
             currentEpisode={anime.episodesList.length}
             newEpisode={newEpisode}
             animating={anime.animating}
-            // animatingUp={anime.animatingUp}
           />
         );
       })}

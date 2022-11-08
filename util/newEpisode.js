@@ -1,7 +1,7 @@
 import { fetchAll } from "./fetchAnimeList";
 import { getFromLocalStorage } from "./localStorage";
 
-export async function getNewEpisodeCount(animeIds) {
+export async function getNewEpisodeCount(animeIds, notificationsList) {
 
     let counter = 0
 
@@ -14,7 +14,7 @@ export async function getNewEpisodeCount(animeIds) {
             getFromLocalStorage(`episodeNum-${animeId}`)
         );
         if (isNaN(lastEpisodeWatched)) lastEpisodeWatched = 1
-        const newEpisode = lastEpisodeWatched < anime.episodesList.length;
+        const newEpisode = notificationsList.includes(animeId) && lastEpisodeWatched < anime.episodesList.length
         if (newEpisode) counter++
     })
     // debugger
