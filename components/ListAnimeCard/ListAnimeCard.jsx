@@ -13,9 +13,21 @@ export function ListAnimeCard({
   lastEpisodeWatched,
   currentEpisode,
   newEpisode,
+  animating,
+  animatingUp,
 }) {
   return (
+    // <Card
+    //   imgUrl={imgUrl}
+    //   title={title}
+    //   id={id}
+    //   lastEpisodeWatched={lastEpisodeWatched}
+    //   currentEpisode={currentEpisode}
+    //   newEpisode={newEpisode}
+    //   animating={animating}
+    // />
     <Swipe
+      className={`${animating ? styles.animating : ""}`}
       MainElem={() => (
         <Card
           imgUrl={imgUrl}
@@ -24,6 +36,7 @@ export function ListAnimeCard({
           lastEpisodeWatched={lastEpisodeWatched}
           currentEpisode={currentEpisode}
           newEpisode={newEpisode}
+          animating={animating}
         />
       )}
       HiddenElem={() => <Options id={id} />}
@@ -38,10 +51,11 @@ const Card = ({
   lastEpisodeWatched,
   currentEpisode,
   newEpisode,
+  animating,
 }) => {
   const [mouseStart, setMouseStart] = useState(null);
   const [xDistance, setXDistance] = useState(0);
-
+  console.log("render");
   return (
     <Link
       // prevent click event in case user swipes on card
@@ -49,7 +63,7 @@ const Card = ({
       onMouseDown={(e) => setMouseStart(e.clientX)}
       onMouseUp={(e) => setXDistance(Math.abs(mouseStart - e.clientX))}
       href={`./episode/${id}`}
-      className={`${styles.Card} ${newEpisode ? styles.New : ""}`}
+      className={`${styles.Card} ${newEpisode ? styles.New : ""} `}
     >
       <img src={imgUrl} />
       <h3>{title}</h3>
@@ -71,12 +85,12 @@ const Options = ({ id }) => {
   const { removeFromList } = useContext(ListContext);
   return (
     <div className={styles.Options}>
-      <div>
+      <div className={styles.OptionsNotifications}>
         <HiBellAlert />
         <h4>Notifications</h4>
       </div>
 
-      <div onClick={() => removeFromList(id)}>
+      <div className={styles.OptionsRemove} onClick={() => removeFromList(id)}>
         <BsFillTrashFill />
         <h4>Remove</h4>
       </div>

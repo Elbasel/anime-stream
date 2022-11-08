@@ -20,6 +20,27 @@ export default function List() {
 
   useEffect(() => {
     getResults();
+  }, []);
+
+  useEffect(() => {
+    setUserList((prevList) =>
+      prevList.map((anime) => {
+        const animeId =
+          anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
+        return list.includes(animeId)
+          ? { ...anime, animatingUp: true }
+          : { ...anime, animating: true };
+      })
+    );
+    setTimeout(() => {
+      setUserList((prevList) =>
+        prevList.filter((anime) => {
+          const animeId =
+            anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
+          return list.includes(animeId);
+        })
+      );
+    }, 900);
   }, [list]);
 
   return (
@@ -46,6 +67,8 @@ export default function List() {
             lastEpisodeWatched={lastEpisodeWatched}
             currentEpisode={anime.episodesList.length}
             newEpisode={newEpisode}
+            animating={anime.animating}
+            // animatingUp={anime.animatingUp}
           />
         );
       })}

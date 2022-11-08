@@ -1,23 +1,24 @@
 .Swiper {
-    width: 100%;
+  width: 100%;
+  touch-action: auto !important;
+  position: relative;
+  display: flex;
+  overflow-x: hidden;
 }
 
 .Container {
-    display: flex;
-    position: relative;
-    overflow-x: hidden;
+  position: relative;
 }
 
 .Options {
-    position: absolute;
-    right: 0;
-    height: 100%;
-    animation: slide-in-from-right 300ms;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  animation: slide-in-from-right 300ms;
 }
 
-
 @keyframes slide-in-from-right {
-    0% {
-        transform: translateX(100%);
-    }
+  0% {
+    transform: translateX(100%);
+  }
 }

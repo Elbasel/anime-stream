@@ -13,6 +13,8 @@ function MyApp({ Component, pageProps }) {
   return <>
     <Head>
       <title>Sharingal Stream</title>
+      <meta name="viewport" content="width=device-width, minimum-scale=1" />
+
     </Head>
     <ListContextProvider>
       <Navbar />

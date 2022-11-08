@@ -6,29 +6,32 @@
   border: 1px solid rgba(255, 255, 255, 0.211);
   user-select: none; /* Standard syntax */
   -webkit-user-drag: none;
+  width: 100%;
 }
 
 .Card img {
   height: 100px;
   width: 140px;
   object-fit: cover;
+  object-position: top;
   user-select: none; /* Standard syntax */
   -webkit-user-drag: none;
+  flex: 0;
 }
 
 .Card h3 {
   margin-left: 0.4em;
   font-size: 1.2em;
-  width: 200px;
+  // width: 14vw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none; /* Standard syntax */
 
-  background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  // background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  // background-clip: text;
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
 }
 
 .Card .aside {
@@ -36,10 +39,12 @@
   padding-right: 1em;
   display: flex;
   gap: 0.4em;
+  flex: 0;
 }
 
 .aside div {
   text-align: center;
+  // width: 6em;
   justify-content: space-evenly;
   display: flex;
   flex-direction: column;
@@ -54,32 +59,19 @@
 }
 
 .aside div:last-child {
+  color: black;
   background-color: white;
 }
 .aside div > p,
 .aside > div > h4 {
-  background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  // background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  // background-clip: text;
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
 }
 
 .aside > div > p {
   font-size: 1em;
-}
-
-.New {
-  background: linear-gradient(
-    -45deg,
-    #000000,
-    #c44c28,
-    #000000,
-    #092a36,
-    #000000
-  );
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-  // border: 0;
 }
 
 .Options {
@@ -109,6 +101,42 @@
   flex-shrink: 0;
 }
 
+.OptionsRemove:hover,
+.OptionsRemove:active {
+  transition: background-color 300ms;
+  background-color: tomato;
+  cursor: pointer;
+}
+
+.OptionsNotifications:hover,
+.OptionsNotifications:active {
+  transition: background-color 300ms;
+  background-color: limegreen;
+  cursor: pointer;
+}
+
+.animating {
+  transform-origin: center left;
+  animation: slide-out 1s forwards;
+}
+
+.animatingUp {
+  animation: move-up 1s;
+}
+
+@keyframes move-up {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-out {
+  100% {
+    display: none;
+    transform: translateX(-100%);
+  }
+}
+
 @media screen and (min-width: 600px) {
   .aside div > p {
     width: 17vw;
@@ -116,14 +144,31 @@
   }
 }
 
+.New {
+  background: linear-gradient(
+    -45deg,
+    #000000,
+    #c44c28,
+    #000000,
+    #092a36,
+    #000000
+  );
+  // background-size: 200% 200%;
+  background-size: 10% 10%;
+  background-repeat: no-repeat;
+  animation: gradient 15s ease infinite;
+  border: 0;
+}
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
+    // background-position: 0% 0%;
   }
   50% {
     background-position: 100% 50%;
+    // background-position: 100% 100%;
   }
-  100% {
-    background-position: 0% 50%;
-  }
+  // 100% {
+  //   background-position: 0% 50%;
+  // }
 }
