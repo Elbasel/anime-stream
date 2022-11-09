@@ -22,7 +22,7 @@ import {
   CaptionControl,
   Tooltip,
 } from "@vime/react";
-import { saveToLocalStorage } from "util/localStorage";
+import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
 export const Player = ({ url }) => {
   const playerRef = useRef(null);
 
@@ -30,15 +30,40 @@ export const Player = ({ url }) => {
     playerRef.current.currentTime += duration;
   };
 
+  // useEffect(() => {
+  //   if (url == null || playerRef.current == null) return;
+
+  //   const savedTime = +getFromLocalStorage(url);
+  //   if (savedTime != null) {
+  //     setTimeout(() => {
+  //       console.log("setting");
+  //       playerRef.current.currentTime = savedTime;
+  //     }, 6000);
+  //   }
+  // }, [url]);
+
+  const setTime = () => {
+    console.log("setting");
+    const savedTime = +getFromLocalStorage(url);
+    if (savedTime != null) {
+      playerRef.current.currentTime = savedTime;
+    }
+  };
+
   useEffect(() => {
     let localRef = null;
+    let localUrl = null;
     if (playerRef.current) localRef = playerRef.current;
+    if (url) localUrl = url;
     return () => {
+      if (localRef.currentTime === 0) return;
       console.log({ time: localRef.currentTime });
+      saveToLocalStorage(localUrl, localRef.currentTime);
     };
   }, []);
   return (
     <VimePlayer
+      onVmReady={() => setTime()}
       style={{ "--vm-settings-max-height": "200px" }}
       theme="dark"
       ref={playerRef}
