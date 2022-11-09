@@ -55,6 +55,22 @@ export default function List() {
         >{`Swipe <-- left on an item to see options!`}</p>
       )}
       {userList.map((anime) => {
+        if (anime.episodesList.length === 0) {
+          return (
+            <ListAnimeCard
+              key={anime.animeTitle}
+              title={anime.animeTitle}
+              imgUrl={anime.animeImg}
+              id={"not-yet-aired"}
+              lastEpisodeWatched={0}
+              currentEpisode={0}
+              newEpisode={false}
+              animating={anime.animating}
+              notificationsOn={false}
+            />
+          );
+        }
+
         const animeId =
           anime.episodesList[0].episodeId.match(/^.*?(?=-episode)/gm)[0];
         let lastEpisodeWatched = parseInt(
