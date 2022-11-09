@@ -30,18 +30,6 @@ export const Player = ({ url }) => {
     playerRef.current.currentTime += duration;
   };
 
-  // useEffect(() => {
-  //   if (url == null || playerRef.current == null) return;
-
-  //   const savedTime = +getFromLocalStorage(url);
-  //   if (savedTime != null) {
-  //     setTimeout(() => {
-  //       console.log("setting");
-  //       playerRef.current.currentTime = savedTime;
-  //     }, 6000);
-  //   }
-  // }, [url]);
-
   const setTime = () => {
     console.log("setting");
     const savedTime = +getFromLocalStorage(url);
