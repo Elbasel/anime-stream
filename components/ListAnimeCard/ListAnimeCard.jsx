@@ -42,7 +42,6 @@ const Card = ({
   lastEpisodeWatched,
   currentEpisode,
   newEpisode,
-  animating,
 }) => {
   const [mouseStart, setMouseStart] = useState(null);
   const [xDistance, setXDistance] = useState(0);
@@ -77,9 +76,8 @@ const Options = ({ id, notificationsOn }) => {
     <div className={styles.Options}>
       <div
         onClick={() => toggleNotifications(id)}
-        className={`${styles.OptionsNotifications} ${
-          notificationsOn ? styles.notificationsOn : ""
-        }`}
+        className={`${styles.OptionsNotifications} ${notificationsOn ? styles.notificationsOn : ""
+          }`}
       >
         <HiBellAlert />
         <h4>Notifications</h4>

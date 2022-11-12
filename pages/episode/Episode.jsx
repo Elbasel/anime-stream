@@ -27,10 +27,10 @@ export default function Episode() {
     setStreamingUrl(null);
     const actualEpisodeNumber = [...episodes]
       .reverse()
-      [episodeNumber - 1].episodeUrl.match(/(?<=\-episode-).*/gm)[0];
+    [episodeNumber - 1].episodeUrl.match(/(?<=\-episode-).*/gm)[0];
     console.log({ actualEpisodeNumber });
-    // const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${actualEpisodeNumber}`;
-    const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
+    const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${actualEpisodeNumber}`;
+    // const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
     // console.log({ fetchURl });
     fetch(fetchURl)
       .then((response) => response.json())
@@ -82,7 +82,7 @@ export default function Episode() {
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
       <div className={styles.playerWrapper}>
-        {streamingUrl ? <Player url={streamingUrl} /> : <Loader />}
+        {streamingUrl ? <Player url={streamingUrl} animeTitle={animeTitle} episodeNumber={episodeNumber} /> : <Loader />}
       </div>
       {episodes && (
         <div className={styles.episodeControls}>

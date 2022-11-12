@@ -20,6 +20,7 @@ export function Swipe({ MainElem, HiddenElem, className }) {
       className={`${styles.Swiper} ${className}`}
       onSwipedLeft={() => showOptions()}
       onSwipedRight={() => hideOptions()}
+      delta={100}
       detectTouch
     >
       <MainElem />

@@ -23,7 +23,7 @@ import {
   Tooltip,
 } from "@vime/react";
 import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
-export const Player = ({ url }) => {
+export const Player = ({ url, animeTitle, episodeNumber }) => {
   const playerRef = useRef(null);
 
   const seek = (duration) => {
@@ -31,27 +31,27 @@ export const Player = ({ url }) => {
   };
 
   const setTime = () => {
-    console.log("setting");
-    const savedTime = +getFromLocalStorage(url);
+    const savedTime = getFromLocalStorage(`${animeTitle}-${episodeNumber}-currentTime`);
     if (savedTime != null) {
-      playerRef.current.currentTime = savedTime;
+      setTimeout(() => {
+        playerRef.current.currentTime = +savedTime;
+        playerRef.current.play()
+      }, 300);
+
     }
   };
 
   useEffect(() => {
     let localRef = null;
-    let localUrl = null;
     if (playerRef.current) localRef = playerRef.current;
-    if (url) localUrl = url;
     return () => {
       if (localRef.currentTime === 0) return;
-      console.log({ time: localRef.currentTime });
-      saveToLocalStorage(localUrl, localRef.currentTime);
+      saveToLocalStorage(`${animeTitle}-${episodeNumber}-currentTime`, localRef.currentTime);
     };
   }, []);
   return (
     <VimePlayer
-      onVmReady={() => setTime()}
+      onVmReady={() => setTime(animeTitle, episodeNumber)}
       style={{ "--vm-settings-max-height": "200px" }}
       theme="dark"
       ref={playerRef}
