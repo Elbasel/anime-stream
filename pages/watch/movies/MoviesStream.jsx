@@ -17,6 +17,7 @@ export default function MoviesStream() {
     const [episodeList, setEpisodeList] = useState(null)
     const [currentEpisode, setCurrentEpisode] = useState(null)
     const [streamingUrl, setStreamingUrl] = useState(null)
+    const [subtitles, setSubtitles] = useState(null)
 
 
     const getEpisodeList = async (id) => {
@@ -30,18 +31,29 @@ export default function MoviesStream() {
         const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
         const result = await response.json()
         console.log({ result })
+        if (!result?.sources) return
         setStreamingUrl(result.sources.at(-1).url)
+        setSubtitles(result.subtitles)
+        console.log(result.subtitles)
         console.log({ url: result.sources.at(-1).url })
     }
 
     useEffect(() => {
         if (id == null) return
         getEpisodeList(id)
+
+    }, [id])
+
+    useEffect(() => {
+        if (episodeList == null) return
         const savedEpisode = getFromLocalStorage(`${id}-episodeNum`)
         if (savedEpisode != null) {
             setCurrentEpisode(savedEpisode)
         }
-    }, [id])
+        else {
+            setCurrentEpisode(episodeList.at(-1).id)
+        }
+    }, [episodeList])
 
     useEffect(() => {
         if (currentEpisode == null || id == null) return
@@ -56,7 +68,7 @@ export default function MoviesStream() {
         <div>
             <h1 className={styles.title}>{title}</h1>
             <div className={styles.playerContainer}>
-                {streamingUrl && <Player url={streamingUrl} />}
+                {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
             </div>
             {/* <div className={styles.seasonsContainer}> */}
             {/* <div>Season One</div> */}

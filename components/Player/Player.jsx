@@ -23,7 +23,7 @@ import {
   Tooltip,
 } from "@vime/react";
 import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
-export const Player = ({ url, animeTitle, episodeNumber }) => {
+export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   const playerRef = useRef(null);
 
   const seek = (duration) => {
@@ -31,11 +31,12 @@ export const Player = ({ url, animeTitle, episodeNumber }) => {
   };
 
   const setTime = () => {
-    const savedTime = getFromLocalStorage(`${animeTitle}-${episodeNumber}-currentTime`);
+    const savedTime = getFromLocalStorage(`${title}-${episodeNumber}-currentTime`);
     if (savedTime != null) {
       setTimeout(() => {
         playerRef.current.currentTime = +savedTime;
         playerRef.current.play()
+        playerRef.current.setTextTrackVisibility(true)
       }, 300);
 
     }
@@ -46,18 +47,29 @@ export const Player = ({ url, animeTitle, episodeNumber }) => {
     if (playerRef.current) localRef = playerRef.current;
     return () => {
       if (localRef.currentTime === 0) return;
-      saveToLocalStorage(`${animeTitle}-${episodeNumber}-currentTime`, localRef.currentTime);
+      saveToLocalStorage(`${title}-${episodeNumber}-currentTime`, localRef.currentTime);
     };
   }, []);
   return (
     <VimePlayer
-      onVmReady={() => setTime(animeTitle, episodeNumber)}
+      onVmReady={() => setTime(title, episodeNumber)}
       style={{ "--vm-settings-max-height": "200px" }}
       theme="dark"
       ref={playerRef}
     >
       <Hls version="latest">
         <source data-src={url} type="application/x-mpegURL" />
+        {subtitles.map(s => (
+          <track
+            default={s.lang == 'English'}
+            key={s.lang}
+            kind="captions"
+            src={s.url}
+            label={s.lang}
+            srcLang="en"
+
+          />
+        ))}
       </Hls>
       <DefaultUi noControls>
         {/* Center Controls for play/pause and changing episode */}

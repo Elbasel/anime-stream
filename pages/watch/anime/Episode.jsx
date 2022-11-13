@@ -82,7 +82,7 @@ export default function Episode() {
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
       <div className={styles.playerWrapper}>
-        {streamingUrl ? <Player url={streamingUrl} animeTitle={animeTitle} episodeNumber={episodeNumber} /> : <Loader />}
+        {streamingUrl ? <Player url={streamingUrl} title={animeTitle} episodeNumber={episodeNumber} /> : <Loader />}
       </div>
       {episodes && (
         <div className={styles.episodeControls}>

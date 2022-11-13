@@ -1,10 +1,16 @@
 .title {
   text-align: center;
+  background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  font-size: 3em;
 }
 
 .playerContainer {
-  height: 30vh;
-  width: 52vw;
+  //   height: 30vh;
+  //   width: 52vw;
   margin: 0 auto;
 }
 
