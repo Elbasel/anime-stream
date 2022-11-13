@@ -51,7 +51,7 @@ const Card = ({
       onClick={(e) => (xDistance > 10 ? e.preventDefault() : null)}
       onMouseDown={(e) => setMouseStart(e.clientX)}
       onMouseUp={(e) => setXDistance(Math.abs(mouseStart - e.clientX))}
-      href={`./episode/${id}`}
+      href={`/watch/anime/${id}`}
       className={`${styles.Card} ${newEpisode ? styles.New : ""} `}
     >
       <img src={imgUrl} />
