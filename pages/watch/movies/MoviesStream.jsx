@@ -25,6 +25,7 @@ export default function MoviesStream() {
     const [currentEpisode, setCurrentEpisode] = useState(null)
     const [streamingUrl, setStreamingUrl] = useState(null)
     const [subtitles, setSubtitles] = useState(null)
+    const [error, setError] = useState(null)
 
 
     const getEpisodeList = async (id) => {
@@ -38,7 +39,10 @@ export default function MoviesStream() {
         const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
         const result = await response.json()
         console.log({ result })
-        if (!result?.sources) return
+        if (!result?.sources) {
+            setError('Error fetching')
+            return
+        }
         setStreamingUrl(result.sources.at(-1).url)
         setSubtitles(result.subtitles)
         console.log(result.subtitles)
@@ -75,6 +79,7 @@ export default function MoviesStream() {
         <div>
             <h1 className={styles.title}>{title}</h1>
             <div className={styles.playerContainer}>
+                {error && <div className={styles.error}>{error}, please try again later</div>}
                 {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
             </div>
             {/* <div className={styles.seasonsContainer}> */}
