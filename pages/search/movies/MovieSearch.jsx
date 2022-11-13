@@ -20,11 +20,9 @@ export default function MovieSearch() {
             if (keyword == "") return;
             setLoading(true);
             const fetchUrl = `https://api.consumet.org/movies/flixhq/${keyword}`;
-            console.log({ fetchUrl })
             fetch(fetchUrl)
                 .then((response) => response.json())
                 .then((movieList) => {
-                    console.log(movieList.results)
                     setSearchFocused(true);
                     setSearchResults(movieList.results);
                     document.documentElement.scrollTop = 0;
