@@ -1,10 +1,17 @@
 import { Loader } from '@components/Loader'
 import Picker from '@components/Picker'
-import { Player } from '@components/Player'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { getFromLocalStorage, saveToLocalStorage } from 'util/localStorage'
 import styles from './MoviesStream.module.scss'
+
+const Player = dynamic(
+    () => import("components/Player").then((mod) => mod.Player),
+    {
+        ssr: false,
+    }
+);
 
 
 const streamUrl = "https://api.consumet.org/movies/flixhq/watch?"
