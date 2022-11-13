@@ -1,0 +1,65 @@
+.Search {
+  // padding: 1em;
+  position: relative;
+}
+
+.Search input {
+  display: block;
+  padding: 0.4em;
+  font-size: 2em;
+  border-radius: 0.3em;
+  width: 100%;
+  background-color: black;
+  padding-left: 2em;
+  border: 1px solid white;
+}
+
+.filtersWrapper {
+  // margin-block: 2em;
+  // padding-inline: 0.8em;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Search Icon
+.Search .inputWrapper {
+  display: flex;
+  gap: 1em;
+  padding: 0.8em;
+  position: sticky;
+  top: 10px;
+  z-index: 9999;
+  margin-top: 2em;
+}
+
+.Search > .inputWrapper::before {
+  background-color: white;
+  width: 2em;
+  height: 2em;
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 1.5em;
+  // display: block;
+  background: url(./search.svg);
+  background-repeat: no-repeat;
+}
+
+// End Search Icon
+
+.Cards {
+  --min-width: 130px;
+  margin-top: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--min-width), 1fr));
+  gap: 10px 5px;
+}
+
+@media screen and (min-width: 600px) {
+  .Cards {
+    --min-width: 200px;
+    max-width: 70%;
+    padding: 0.8em;
+    gap: 20px 10px;
+  }
+}

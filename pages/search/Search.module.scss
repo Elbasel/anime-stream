@@ -1,65 +1,44 @@
-.Search {
-  // padding: 1em;
-  position: relative;
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 2vw;
+  overflow: hidden;
+  justify-content: center;
 }
 
-.Search input {
-  display: block;
-  padding: 0.4em;
-  font-size: 2em;
-  border-radius: 0.3em;
+.container .option {
+  width: 45%;
+}
+
+.option img {
   width: 100%;
-  background-color: black;
-  padding-left: 2em;
-  border: 1px solid white;
+  object-fit: cover;
 }
 
-.filtersWrapper {
-  // margin-block: 2em;
-  // padding-inline: 0.8em;
+.option button {
   display: flex;
-  justify-content: flex-end;
+  margin: 0 auto;
+  margin-top: 1em;
 }
 
-// Search Icon
-.Search .inputWrapper {
-  display: flex;
-  gap: 1em;
-  padding: 0.8em;
-  position: sticky;
-  top: 10px;
-  z-index: 9999;
-  margin-top: 2em;
+.option button a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
-.Search > .inputWrapper::before {
-  background-color: white;
-  width: 2em;
-  height: 2em;
-  content: "";
-  position: absolute;
-  top: 30%;
-  left: 1.5em;
-  // display: block;
-  background: url(./search.svg);
-  background-repeat: no-repeat;
-}
+@media screen and (max-width: 400px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
 
-// End Search Icon
-
-.Cards {
-  --min-width: 130px;
-  margin-top: 2em;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--min-width), 1fr));
-  gap: 10px 5px;
-}
-
-@media screen and (min-width: 600px) {
-  .Cards {
-    --min-width: 200px;
-    max-width: 70%;
-    padding: 0.8em;
-    gap: 20px 10px;
+  .container .option {
+    width: 100%;
+  }
+  .option button {
+    width: 100%;
   }
 }

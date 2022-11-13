@@ -1,0 +1,41 @@
+.searchBar {
+  width: 100%;
+  padding: 1em;
+  outline: none;
+  border-radius: 1em;
+  background-color: transparent;
+  padding-left: 3em;
+}
+
+.searchBarContainer {
+  padding: 1em;
+  position: relative;
+}
+
+.searchBarContainer::after {
+  position: absolute;
+  content: "";
+  display: block;
+  background: url(./search.svg) no-repeat;
+  height: 2em;
+  width: 2em;
+  top: 27px;
+  left: 26px;
+}
+
+.Cards {
+  --min-width: 130px;
+  margin-top: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--min-width), 1fr));
+  gap: 10px 5px;
+}
+
+@media screen and (min-width: 600px) {
+  .Cards {
+    --min-width: 200px;
+    max-width: 70%;
+    padding: 0.8em;
+    gap: 20px 10px;
+  }
+}

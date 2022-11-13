@@ -1,15 +1,20 @@
 import { ListContext } from "context/ListContext";
 import Link from "next/link";
 import React, { useContext } from "react";
-import styles from "./AnimeCard.module.scss";
+import styles from "./Card.module.scss";
 import { toast } from "react-hot-toast";
 
-export function AnimeCard({ title, imgUrl, id }) {
+export function Card({ title, imgUrl, id, type }) {
   const { addToList } = useContext(ListContext);
 
+  const url = type === 'movie' ? '/watch/movies' : `/watch/anime/${id}`
   return (
     <div className={styles.container}>
-      <Link href={`./episode/${id}`} className={styles.Card}>
+      {/* <Link href={`/episode/${id}`} className={styles.Card}> */}
+      <Link href={{
+        pathname: `${url}`,
+        query: { id, title },
+      }} className={styles.Card}>
         <div className={styles.backdrop}></div>
         <img src={imgUrl} alt={title} />
         <div className={styles.Wrapper}>
