@@ -7,12 +7,13 @@ import { getFromLocalStorage } from "util/localStorage";
 import styles from "./List.module.scss";
 
 export default function List() {
-  const { list, notificationsList } = useContext(ListContext);
+  let { list, notificationsList } = useContext(ListContext);
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getResults = async () => {
     setLoading(true);
+    list = list.filter(item => item?.episodesList)
     let fetchList = await fetchAll(list);
     setUserList(fetchList);
     setLoading(false);

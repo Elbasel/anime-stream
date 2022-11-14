@@ -16,6 +16,7 @@ export function Navbar() {
   const { list, notificationsList } = useContext(ListContext);
 
   const fetchNewEpisodeCount = async (fetchList, notificationsList) => {
+    fetchList = fetchList.filter(item => item?.episodeList)
     const count = await getNewEpisodeCount(fetchList, notificationsList);
     setNewEpisodeCount(count);
   };

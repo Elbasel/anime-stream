@@ -26,6 +26,7 @@ export default function MoviesStream() {
     const [streamingUrl, setStreamingUrl] = useState(null)
     const [subtitles, setSubtitles] = useState(null)
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
 
 
     const getEpisodeList = async (id) => {
@@ -36,17 +37,17 @@ export default function MoviesStream() {
 
 
     const getStreamingUrl = async (episodeId, mediaId) => {
+        setStreamingUrl(null)
+        setLoading(true)
         const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
         const result = await response.json()
-        console.log({ result })
         if (!result?.sources) {
             setError('Error fetching')
             return
         }
         setStreamingUrl(result.sources.at(-1).url)
         setSubtitles(result.subtitles)
-        console.log(result.subtitles)
-        console.log({ url: result.sources.at(-1).url })
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -81,6 +82,7 @@ export default function MoviesStream() {
             <div className={styles.playerContainer}>
                 {error && <div className={styles.error}>{error}, please try again later</div>}
                 {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
+                {loading && <div className={styles.playerLoading}><Loader /></div>}
             </div>
             {/* <div className={styles.seasonsContainer}> */}
             {/* <div>Season One</div> */}
@@ -90,6 +92,6 @@ export default function MoviesStream() {
                 {episodeList ? <Picker options={episodeList} selectedValue={currentEpisode} onValueChange={(newValue) => setCurrentEpisode(newValue)} /> : <Loader />
                 }
             </div>
-        </div>
+        </div >
     )
 }

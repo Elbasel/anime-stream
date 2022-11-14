@@ -21,7 +21,7 @@ export function Card({ title, imgUrl, id, type }) {
           <h3 className={styles.title}>{title}</h3>
         </div>
       </Link>
-      <button
+      {type === 'anime' && <button
         onClick={(e) => {
           e.stopPropagation();
           addToList(id);
@@ -30,7 +30,7 @@ export function Card({ title, imgUrl, id, type }) {
         className={styles.button}
       >
         +
-      </button>
+      </button>}
     </div>
   );
 }

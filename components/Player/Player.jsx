@@ -50,6 +50,8 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
       saveToLocalStorage(`${title}-${episodeNumber}-currentTime`, localRef.currentTime);
     };
   }, []);
+
+  console.log({ url })
   return (
     <VimePlayer
       onVmReady={() => setTime(title, episodeNumber)}
