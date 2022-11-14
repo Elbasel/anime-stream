@@ -83,7 +83,7 @@ export default function MoviesStream() {
             <div className={styles.playerContainer}>
                 {error && <div className={styles.error}>{error}, please try again later</div>}
                 {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
-                {loading && <div className={styles.playerLoading}><Loader /></div>}
+                {loading && !error && <div className={styles.playerLoading}><Loader /></div>}
             </div>
             {/* <div className={styles.seasonsContainer}> */}
             {/* <div>Season One</div> */}

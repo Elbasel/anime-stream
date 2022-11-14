@@ -37,6 +37,8 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
         playerRef.current.currentTime = +savedTime;
         playerRef.current.play()
         playerRef.current.setTextTrackVisibility(true)
+
+
       }, 300);
 
     }
@@ -51,6 +53,25 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     };
   }, []);
 
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const tracks = playerRef.current.textTracks
+      console.log({ tracks })
+      if (tracks.length !== 0) {
+
+        tracks.forEach((t, index) => {
+          if (t.label === 'English') {
+            playerRef.current.setCurrentTextTrack(index)
+
+          }
+        })
+        clearInterval(interval)
+      }
+    }, 1000);
+  }, [])
+
+
   console.log({ url })
   return (
     <VimePlayer
@@ -64,6 +85,8 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
         <source data-src={url} type="application/x-mpegURL" />
         {subtitles.map(s => {
 
+
+          if (s.lang === 'Default (Maybe)') return null
           return (<track
             key={s.lang}
             kind="subtitles"
@@ -74,9 +97,10 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           />)
         })}
       </Hls>
-      <DefaultUi noControls>
+      <DefaultUi hideOnMouseLeave noControls>
         {/* Center Controls for play/pause and changing episode */}
         <Controls
+          hideOnMouseLeave
           align="center"
           pin="center"
           justify="space-evenly"
@@ -90,7 +114,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
             onClick={() => seek(-5)}
           />
 
-          <PlaybackControl hideTooltip keys="k/ " />
+          <PlaybackControl hideOnMouseLeave hideTooltip keys="k/ " />
           <img
             className={styles.icon}
             src={SkipIcon.src}
@@ -98,10 +122,10 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           />
         </Controls>
 
-        <Scrim gradient="up" />
+        <Scrim gradient="up" hideOnMouseLeave />
 
-        <Controls pin="bottomLeft" direction={"column-reverse"}>
-          <ControlGroup space={"top"}>
+        <Controls hideOnMouseLeave pin="bottomLeft" direction={"column-reverse"}>
+          <ControlGroup hideOnMouseLeave space={"top"}>
             <PlaybackControl keys="k/ " tooltipDirection="right" />
             <VolumeControl />
 
@@ -111,10 +135,10 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
             <PipControl keys="i" />
             <SettingsControl />
 
-            <FullscreenControl tooltipDirection="left" />
+            <FullscreenControl hideOnMouseLeave tooltipDirection="left" />
           </ControlGroup>
 
-          <ControlGroup>
+          <ControlGroup hideOnMouseLeave>
             <ScrubberControl />
           </ControlGroup>
         </Controls>
