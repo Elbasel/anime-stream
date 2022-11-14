@@ -46,6 +46,7 @@ export default function MoviesStream() {
             return
         }
         setStreamingUrl(result.sources.at(-1).url)
+        console.log(result.subtitles)
         setSubtitles(result.subtitles)
         setLoading(false)
     }

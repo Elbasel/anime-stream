@@ -59,19 +59,20 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
       theme="dark"
       ref={playerRef}
     >
-      <Hls version="latest">
+      <Hls crossOrigin="anonymous"
+        version="latest">
         <source data-src={url} type="application/x-mpegURL" />
-        {subtitles.map(s => (
-          <track
-            default={s.lang == 'English'}
+        {subtitles.map(s => {
+
+          return (<track
             key={s.lang}
-            kind="captions"
+            kind="subtitles"
             src={s.url}
             label={s.lang}
             srcLang="en"
 
-          />
-        ))}
+          />)
+        })}
       </Hls>
       <DefaultUi noControls>
         {/* Center Controls for play/pause and changing episode */}
