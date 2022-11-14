@@ -13,8 +13,9 @@ export default function List() {
 
   const getResults = async () => {
     setLoading(true);
-    list = list.filter(item => item?.episodesList)
     let fetchList = await fetchAll(list);
+    console.log(fetchList)
+    fetchList = fetchList.filter(item => item?.episodesList)
     setUserList(fetchList);
     setLoading(false);
   };

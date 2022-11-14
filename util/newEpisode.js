@@ -9,8 +9,6 @@ export async function getNewEpisodeCount(animeIds, notificationsList) {
   fetchList.forEach((anime) => {
     // debugger
 
-    if (!anime?.episodesList) return null;
-
     if (anime.episodesList.length === 0) {
       return;
     }

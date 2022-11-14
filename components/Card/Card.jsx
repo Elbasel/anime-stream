@@ -21,7 +21,7 @@ export function Card({ title, imgUrl, id, type }) {
           <h3 className={styles.title}>{title}</h3>
         </div>
       </Link>
-      {type === 'anime' && <button
+      {type !== 'movie' && <button
         onClick={(e) => {
           e.stopPropagation();
           addToList(id);
