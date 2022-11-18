@@ -29,11 +29,12 @@ export default function List() {
       prevList.map((anime) => {
         const animeId =
           anime.episodesList[0]?.episodeId.match(/^.*?(?=-episode)/gm)[0];
-        if (!animeId) return { ...anime }
+        if (!animeId) return null
+        debugger
         return list.includes(animeId)
           ? { ...anime }
           : { ...anime, animating: true };
-      })
+      }).filter(item => item !== null)
     );
     setTimeout(() => {
       setUserList((prevList) =>

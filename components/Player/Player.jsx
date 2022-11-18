@@ -56,17 +56,27 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const tracks = playerRef.current.textTracks
+      const tracks = playerRef?.current?.textTracks
       console.log({ tracks })
-      if (tracks.length !== 0) {
 
-        tracks.forEach((t, index) => {
-          if (t.label === 'English') {
-            playerRef.current.setCurrentTextTrack(index)
 
-          }
-        })
+      // clear interval after 30 seconds as a safe measure
+      setTimeout(() => {
         clearInterval(interval)
+      }, 30000);
+
+
+      if (tracks?.length !== 0) {
+
+        clearInterval(interval)
+        setTimeout(() => {
+          tracks?.forEach((t, index) => {
+            if (t.label === 'English') {
+              playerRef?.current?.setCurrentTextTrack(index)
+
+            }
+          })
+        }, 5000);
       }
     }, 1000);
   }, [])

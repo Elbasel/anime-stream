@@ -17,6 +17,7 @@ export function ListContextProvider({ children }) {
   };
 
   const removeFromList = (id) => {
+    debugger
     setList((prevList) => prevList.filter((elem) => elem !== id));
   };
 
