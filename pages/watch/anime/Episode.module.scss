@@ -34,6 +34,13 @@
   margin: 0 auto;
 }
 
+.errorMessage {
+  font-size: 3rem;
+  text-align: center;
+  height: 30vh;
+  line-height: 30vh;
+}
+
 @media screen and (min-width: 600px) {
   .playerWrapper {
     width: 35%;

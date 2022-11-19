@@ -82,9 +82,9 @@ export default function Episode() {
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}
       <div className={styles.playerWrapper}>
-        {streamingUrl ? <Player url={streamingUrl} title={animeTitle} episodeNumber={episodeNumber} /> : <Loader />}
+        {streamingUrl && episodes?.length > 0 ? <Player url={streamingUrl} title={animeTitle} episodeNumber={episodeNumber} /> : episodes.length === 0 ? <div className={styles.errorMessage + ' linear-text'}>Not Yet Aired</div> : <Loader />}
       </div>
-      {episodes && (
+      {episodes?.length > 0 ? (
         <div className={styles.episodeControls}>
           <BsChevronBarLeft
             onClick={() =>
@@ -109,7 +109,7 @@ export default function Episode() {
             }
           />
         </div>
-      )}
+      ) : <div className={styles.errorMessage + ' push-up-2'} >No Episodes yet</div>}
     </div>
   );
 }
