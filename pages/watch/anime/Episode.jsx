@@ -22,13 +22,16 @@ export default function Episode() {
   const [episodes, setEpisodes] = useState([]);
   const [episodeNumber, setEpisodeNumber] = useState(null);
   const [animeTitle, setAnimeTitle] = useState("");
+  const [loading, setLoading] = useState(true)
 
   const getStreamingUrl = (id, episodeNumber, episodes) => {
+    setLoading(true)
+
     setStreamingUrl(null);
     const actualEpisodeNumber = [...episodes]
       .reverse()
     [episodeNumber - 1].episodeUrl.match(/(?<=\-episode-).*/gm)[0];
-    console.log({ actualEpisodeNumber });
+    // console.log({ actualEpisodeNumber });
     const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${actualEpisodeNumber}`;
     // const fetchURl = `https://gogoanime.consumet.org/vidcdn/watch/${id}-episode-${episodeNumber}`;
     // console.log({ fetchURl });
@@ -37,15 +40,19 @@ export default function Episode() {
       .then((animelist) => {
         setStreamingUrl(animelist?.sources_bk?.[0].file);
       });
+      setLoading(false)
   };
 
   const getAnimeDetails = (id) => {
+    setLoading(true)
     fetch(`https://gogoanime.consumet.org/anime-details/${id}`)
-      .then((response) => response.json())
-      .then((animelist) => {
-        setEpisodes(animelist?.episodesList);
-        console.log({ animelist });
-        setAnimeTitle(animelist?.animeTitle);
+    .then((response) => response.json())
+    .then((animelist) => {
+      // console.log({ 'fetched LIst inside episode.jsx: ': animelist })
+      setEpisodes(animelist?.episodesList);
+      // console.log({ animelist });
+      setAnimeTitle(animelist?.animeTitle);
+      setLoading(false)
       });
   };
 
@@ -77,7 +84,10 @@ export default function Episode() {
     saveToLocalStorage(`episodeNum-${id}`, episodeNumber);
   }, [episodeNumber]);
 
-  // if (!streamingUrl) return <Loader />;
+
+
+
+  if (loading) return <Loader />;
   return (
     <div className={styles.Episode}>
       {animeTitle != "" && <h1>{animeTitle}</h1>}

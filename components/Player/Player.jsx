@@ -42,6 +42,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
       }, 300);
 
     }
+    playerRef.current.playbackQuality = '360p'
   };
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       const tracks = playerRef?.current?.textTracks
-      console.log({ tracks })
+      // console.log({ tracks })
 
 
       // clear interval after 30 seconds as a safe measure
@@ -82,7 +83,29 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   }, [])
 
 
-  console.log({ url })
+
+
+
+
+  useEffect(() => {
+    function saveTime() {
+      if (localRef.currentTime === 0) return;
+      saveToLocalStorage(`${title}-${episodeNumber}-currentTime`, localRef.currentTime);
+    }
+
+
+
+    let localRef = null;
+    if (playerRef.current) localRef = playerRef.current;
+
+    window.addEventListener('unload', saveTime)
+    return () => { window.removeEventListener('unload', saveTime) }
+  }, [url]);
+
+
+
+
+  // console.log({ url })
   return (
     <VimePlayer
       onVmReady={() => setTime(title, episodeNumber)}
