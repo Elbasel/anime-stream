@@ -98,7 +98,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     let localRef = null;
     if (playerRef.current) localRef = playerRef.current;
 
-    window.addEventListener('unload', saveTime)
+    window.addEventListener('pagehide', saveTime)
     return () => { window.removeEventListener('unload', saveTime) }
   }, [url]);
 
