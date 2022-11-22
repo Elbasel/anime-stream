@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@heroicons/react': ^2.0.13
+  '@vercel/analytics': ^0.1.5
   '@vime/core': ^5.3.3
   '@vime/react': ^5.3.3
   csstype: ^3.1.1
@@ -18,6 +19,7 @@ specifiers:
 
 dependencies:
   '@heroicons/react': 2.0.13_react@18.2.0
+  '@vercel/analytics': 0.1.5_react@18.2.0
   '@vime/core': 5.3.3
   '@vime/react': 5.3.3_eippnbdo34hkigcdhoki3xk66y
   csstype: 3.1.1
@@ -183,6 +185,14 @@ packages:
 
   /@types/fscreen/1.0.1:
     resolution: {integrity: sha512-hV2d0BreihMGtrg+EdAFOIl/O2EL5vhAheHJUztGE/lPFZIN8ZCpGFL8hCbtyi1CfhKjDRCf47sHjP+FwJ4q0Q==}
+    dev: false
+
+  /@vercel/analytics/0.1.5_react@18.2.0:
+    resolution: {integrity: sha512-/k9N8Ea3Yc5A52GlkjzUEbi2vE/izClrOf++ryBkxEfrZM/OZwtHkdNw/QExZ1h/B67RCZLK7bCOnKKrhG7gTg==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@vime/core/5.3.3:

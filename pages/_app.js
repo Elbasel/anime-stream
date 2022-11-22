@@ -1,4 +1,5 @@
 import { Navbar } from '@components/NavBar'
+import { Analytics } from '@vercel/analytics/react';
 import '../styles/normalize.css'
 import '../styles/globals.css'
 import "swiper/css";
@@ -12,7 +13,7 @@ import Head from 'next/head';
 function MyApp({ Component, pageProps }) {
   return <>
     <Head>
-      <title>Sharingal Stream</title>
+      <title>Sharingan Stream</title>
       <meta name="viewport" content="width=device-width, minimum-scale=1" />
 
     </Head>
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }) {
 
       <Component {...pageProps} />
       <Toaster />
+      <Analytics />
     </ListContextProvider>
   </>
 }
