@@ -48,7 +48,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   const saveCurrentTime = () => {
     saveToLocalStorage(
       `${title}-${episodeNumber}-currentTime`,
-      playerRef.currentTime
+      playerRef.current.currentTime
     );
   };
 
