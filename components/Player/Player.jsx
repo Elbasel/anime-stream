@@ -31,103 +31,88 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   };
 
   const setTime = () => {
-    const savedTime = getFromLocalStorage(`${title}-${episodeNumber}-currentTime`);
+    playerRef.current.play();
+    const savedTime = getFromLocalStorage(
+      `${title}-${episodeNumber}-currentTime`
+    );
     if (savedTime != null) {
       setTimeout(() => {
         playerRef.current.currentTime = +savedTime;
-        playerRef.current.play()
-        playerRef.current.setTextTrackVisibility(true)
-
-
+        playerRef.current.play();
+        playerRef.current.setTextTrackVisibility(true);
       }, 300);
-
     }
-    playerRef.current.playbackQuality = '360p'
+    playerRef.current.playbackQuality = "360p";
   };
+
+  const saveCurrentTime = () => {
+    saveToLocalStorage(
+      `${title}-${episodeNumber}-currentTime`,
+      playerRef.currentTime
+    );
+  };
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      saveCurrentTime()
+    }, 5000);
+
+    return () => {clearInterval(interval)}
+  }, [])
 
   useEffect(() => {
     let localRef = null;
     if (playerRef.current) localRef = playerRef.current;
     return () => {
       if (localRef.currentTime === 0) return;
-      saveToLocalStorage(`${title}-${episodeNumber}-currentTime`, localRef.currentTime);
+      saveCurrentTime();
     };
   }, []);
 
-
   useEffect(() => {
     const interval = setInterval(() => {
-      const tracks = playerRef?.current?.textTracks
-      // console.log({ tracks })
-
-
-      // clear interval after 30 seconds as a safe measure
+      const tracks = playerRef?.current?.textTracks;
       setTimeout(() => {
-        clearInterval(interval)
+        clearInterval(interval);
       }, 30000);
 
-
       if (tracks?.length !== 0) {
-
-        clearInterval(interval)
+        clearInterval(interval);
         setTimeout(() => {
           tracks?.forEach((t, index) => {
-            if (t.label === 'English') {
-              playerRef?.current?.setCurrentTextTrack(index)
-
+            if (t.label === "English") {
+              playerRef?.current?.setCurrentTextTrack(index);
             }
-          })
+          });
         }, 5000);
       }
     }, 1000);
-  }, [])
+  }, []);
 
 
 
-
-
-
-  useEffect(() => {
-    function saveTime() {
-      if (localRef.currentTime === 0) return;
-      saveToLocalStorage(`${title}-${episodeNumber}-currentTime`, localRef.currentTime);
-    }
-
-
-
-    let localRef = null;
-    if (playerRef.current) localRef = playerRef.current;
-
-    window.addEventListener('pagehide', saveTime)
-    return () => { window.removeEventListener('unload', saveTime) }
-  }, [url]);
-
-
-
-
-  // console.log({ url })
   return (
     <VimePlayer
       onVmReady={() => setTime(title, episodeNumber)}
       style={{ "--vm-settings-max-height": "200px" }}
       theme="dark"
       ref={playerRef}
+      onVmFullscreenChange={() => playerRef.current.blur()}
     >
-      <Hls crossOrigin="anonymous"
-        version="latest">
+      <Hls crossOrigin="anonymous" version="latest">
         <source data-src={url} type="application/x-mpegURL" />
-        {subtitles.map(s => {
-
-
-          if (s.lang === 'Default (Maybe)') return null
-          return (<track
-            key={s.lang}
-            kind="subtitles"
-            src={s.url}
-            label={s.lang}
-            srcLang="en"
-
-          />)
+        {subtitles.map((s) => {
+          if (s.lang === "Default (Maybe)") return null;
+          return (
+            <track
+              key={s.lang}
+              kind="subtitles"
+              src={s.url}
+              label={s.lang}
+              srcLang="en"
+            />
+          );
         })}
       </Hls>
       <DefaultUi hideOnMouseLeave noControls>
@@ -157,7 +142,11 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
 
         <Scrim gradient="up" hideOnMouseLeave />
 
-        <Controls hideOnMouseLeave pin="bottomLeft" direction={"column-reverse"}>
+        <Controls
+          hideOnMouseLeave
+          pin="bottomLeft"
+          direction={"column-reverse"}
+        >
           <ControlGroup hideOnMouseLeave space={"top"}>
             <PlaybackControl keys="k/ " tooltipDirection="right" />
             <VolumeControl />
