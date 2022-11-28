@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Player as VimePlayer, DefaultUi, Hls } from "@vime/react";
 import "@vime/core/themes/default.css";
 import styles from "./Player.module.scss";
-import SkipIcon from "./skip.png";
+import forwardIcon from "./forward.png";
+import replayIcon from './replay.png';
 
 import {
   Controls,
@@ -127,18 +128,20 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           justify="space-evenly"
           style={{
             "--vm-controls-spacing": "80px",
+            '--vm-control-icon-size': '80px',
+            'margin-top': '-20px',
           }}
         >
           <img
             className={styles.icon}
-            src={SkipIcon.src}
+            src={replayIcon.src}
             onClick={() => seek(-5)}
           />
 
           <PlaybackControl hideOnMouseLeave hideTooltip keys="k/ " />
           <img
             className={styles.icon}
-            src={SkipIcon.src}
+            src={forwardIcon.src}
             onClick={() => seek(5)}
           />
         </Controls>

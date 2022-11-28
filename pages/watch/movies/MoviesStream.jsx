@@ -38,15 +38,15 @@ export default function MoviesStream() {
 
     const getStreamingUrl = async (episodeId, mediaId) => {
         setStreamingUrl(null)
+        setSubtitles(null)
         setLoading(true)
         const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
         const result = await response.json()
-        if (!result?.sources) {
+        if (!(result?.sources)) {
             setError('Error fetching')
             return
         }
         setStreamingUrl(result.sources.at(-1).url)
-        console.log(result.subtitles)
         setSubtitles(result.subtitles)
         setLoading(false)
     }
@@ -81,7 +81,7 @@ export default function MoviesStream() {
         <div>
             <h1 className={styles.title}>{title}</h1>
             <div className={styles.playerContainer}>
-                {error && <div className={styles.error}>{error}, please try again later</div>}
+                {error && <div className={styles.error}>{error}, <button onClick={() => window.location.reload(true)}>try again</button></div>}
                 {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
                 {loading && !error && <div className={styles.playerLoading}><Loader /></div>}
             </div>

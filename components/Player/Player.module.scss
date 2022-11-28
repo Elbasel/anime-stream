@@ -3,10 +3,10 @@
 }
 
 .icon {
-  --width: 20px;
+  --width: 8%;
   width: var(--width);
   height: var(--width);
+  cursor: pointer;
+  object-fit: contain;
 }
-.icon:nth-child(3) {
-  transform: scaleX(-1);
-}
+
