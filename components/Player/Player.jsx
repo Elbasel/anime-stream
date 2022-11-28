@@ -46,6 +46,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   };
 
   const saveCurrentTime = () => {
+    if (playerRef.current.currentTime == 0) return;
     saveToLocalStorage(
       `${title}-${episodeNumber}-currentTime`,
       playerRef.current.currentTime
@@ -66,9 +67,11 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     if (playerRef.current) localRef = playerRef.current;
     return () => {
       if (localRef.currentTime === 0) return;
-      saveCurrentTime();
-    };
-  }, []);
+      saveToLocalStorage(
+        `${title}-${episodeNumber}-currentTime`,
+        localRef.currentTime
+      );    };
+  }, [playerRef]);
 
   useEffect(() => {
     const interval = setInterval(() => {
