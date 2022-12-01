@@ -37,26 +37,33 @@ export default function MoviesStream() {
 
 
     const getStreamingUrl = async (episodeId, mediaId) => {
+        setLoading(true)
         setStreamingUrl(null)
         setSubtitles(null)
-        setLoading(true)
+
         const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
         const result = await response.json()
         if (!(result?.sources)) {
             setError('Error fetching')
             return
         }
+
         setStreamingUrl(result.sources.at(-1).url)
         setSubtitles(result.subtitles)
-        setLoading(false)
+        setError(null)
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000);
     }
 
+    // get episode list on first render
     useEffect(() => {
         if (id == null) return
         getEpisodeList(id)
 
     }, [id])
 
+    // set current episode if found in local storage
     useEffect(() => {
         if (episodeList == null) return
         const savedEpisode = getFromLocalStorage(`${id}-episodeNum`)
@@ -68,6 +75,8 @@ export default function MoviesStream() {
         }
     }, [episodeList])
 
+
+    // user changes episode: save current episode to local storage and get new streaming url
     useEffect(() => {
         if (currentEpisode == null || id == null) return
         saveToLocalStorage(`${id}-episodeNum`, currentEpisode)
@@ -82,7 +91,7 @@ export default function MoviesStream() {
             <h1 className={styles.title}>{title}</h1>
             <div className={styles.playerContainer}>
                 {error && <div className={styles.error}>{error}, <button onClick={() => window.location.reload(true)}>try again</button></div>}
-                {streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
+                {!loading && streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
                 {loading && !error && <div className={styles.playerLoading}><Loader /></div>}
             </div>
             {/* <div className={styles.seasonsContainer}> */}

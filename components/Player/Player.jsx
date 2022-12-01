@@ -31,21 +31,22 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     playerRef.current.currentTime += duration;
   };
 
-  const setTime = () => {
-    playerRef.current.play();
+  const onReady = () => {
     const savedTime = getFromLocalStorage(
       `${title}-${episodeNumber}-currentTime`
-    );
-    if (savedTime != null) {
-      setTimeout(() => {
-        playerRef.current.currentTime = +savedTime;
-        playerRef.current.play();
-        playerRef.current.setTextTrackVisibility(true);
-      }, 300);
-    }
+      );
+      if (savedTime != null) {
+        setTimeout(() => {
+          playerRef.current.currentTime = +savedTime;
+        }, 300);
+      }
+    playerRef.current.play();
+    playerRef.current.playbackQualities = playerRef.current.playbackQualities.filter(q => !(q === '0p'))
     playerRef.current.playbackQuality = "360p";
+
   };
 
+  // saved current player time to local storage
   const saveCurrentTime = () => {
     if (playerRef.current.currentTime == 0) return;
     saveToLocalStorage(
@@ -55,6 +56,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   };
 
 
+  // save current time to local storage every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       saveCurrentTime()
@@ -63,17 +65,9 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     return () => {clearInterval(interval)}
   }, [])
 
-  useEffect(() => {
-    let localRef = null;
-    if (playerRef.current) localRef = playerRef.current;
-    return () => {
-      if (localRef.currentTime === 0) return;
-      saveToLocalStorage(
-        `${title}-${episodeNumber}-currentTime`,
-        localRef.currentTime
-      );    };
-  }, [playerRef]);
 
+
+  // set subtitles to english automatically
   useEffect(() => {
     const interval = setInterval(() => {
       const tracks = playerRef?.current?.textTracks;
@@ -87,6 +81,8 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           tracks?.forEach((t, index) => {
             if (t.label === "English") {
               playerRef?.current?.setCurrentTextTrack(index);
+              playerRef.current.setTextTrackVisibility(true);
+
             }
           });
         }, 5000);
@@ -98,7 +94,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
 
   return (
     <VimePlayer
-      onVmReady={() => setTime(title, episodeNumber)}
+      onVmReady={() => onReady(title, episodeNumber)}
       style={{ "--vm-settings-max-height": "200px" }}
       theme="dark"
       ref={playerRef}

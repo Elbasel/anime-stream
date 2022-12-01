@@ -3,7 +3,7 @@
   touch-action: auto !important;
   position: relative;
   display: flex;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .Options {
@@ -11,6 +11,7 @@
   right: 0;
   height: 100%;
   animation: slide-in-from-right 300ms;
+  overflow: hidden;
 }
 
 @keyframes slide-in-from-right {

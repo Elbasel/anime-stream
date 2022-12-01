@@ -28,6 +28,7 @@ export function ListAnimeCard({
           currentEpisode={currentEpisode}
           newEpisode={newEpisode}
           animating={animating}
+          notificationsOn={notificationsOn}
         />
       )}
       HiddenElem={() => <Options id={id} notificationsOn={notificationsOn} />}
@@ -42,6 +43,7 @@ const Card = ({
   lastEpisodeWatched,
   currentEpisode,
   newEpisode,
+  notificationsOn
 }) => {
   const [mouseStart, setMouseStart] = useState(null);
   const [xDistance, setXDistance] = useState(0);
@@ -54,6 +56,11 @@ const Card = ({
       href={`/watch/anime/${id}`}
       className={`${styles.Card} ${newEpisode ? styles.New : ""} `}
     >
+      {notificationsOn && (
+        <div className={styles.notificationsIcon}>
+          <HiBellAlert />
+        </div>
+      )}
       <img src={imgUrl} />
       <h3>{title}</h3>
       <div className={styles.aside}>
@@ -76,8 +83,9 @@ const Options = ({ id, notificationsOn }) => {
     <div className={styles.Options}>
       <div
         onClick={() => toggleNotifications(id)}
-        className={`${styles.OptionsNotifications} ${notificationsOn ? styles.notificationsOn : ""
-          }`}
+        className={`${styles.OptionsNotifications} ${
+          notificationsOn ? styles.notificationsOn : ""
+        }`}
       >
         <HiBellAlert />
         <h4>Notifications</h4>
