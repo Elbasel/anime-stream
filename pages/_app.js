@@ -5,10 +5,12 @@ import '../styles/globals.css'
 import "swiper/css";
 import "swiper/css/pagination";
 
+
 import { ListContextProvider } from 'context/ListContext'
 import { Toaster } from 'react-hot-toast';
 import Head from 'next/head';
 
+import '../util/firebase/init'
 
 function MyApp({ Component, pageProps }) {
   return <>

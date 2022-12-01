@@ -1,11 +1,14 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
-import { VscSearch } from "react-icons/vsc";
-import { BsListNested } from "react-icons/bs";
-import styles from "./Navbar.module.scss";
+
 import { getNewEpisodeCount } from "util/newEpisode";
 import { ListContext } from "context/ListContext";
+
+import { BsListNested } from "react-icons/bs";
+import { VscSearch } from "react-icons/vsc";
+import { GiPlagueDoctorProfile } from "react-icons/gi";
+import styles from "./Navbar.module.scss";
 
 const Logo = dynamic(
   () => import("@components/Logo/Logo").then((mod) => mod.Logo),
@@ -44,9 +47,12 @@ export function Navbar() {
           <Logo />
         </Link>
       </div>
-      <div className="right">
+      <div className={styles.right}>
         <Link href="/search">
           <VscSearch />
+        </Link>
+        <Link href="/profile">
+        <GiPlagueDoctorProfile style={{marginTop: '-10px'}}/>
         </Link>
       </div>
     </nav>
