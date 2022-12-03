@@ -42,6 +42,7 @@ export function ListContextProvider({ children }) {
       value={{
         addToList,
         list,
+        setList,
         removeFromList,
         notificationsList,
         // addToNotifications,

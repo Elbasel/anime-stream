@@ -45,6 +45,8 @@
   display: flex;
   // gap: 0.4em;
   // flex: 0; 
+  flex-shrink: 0;
+
 }
 
 .aside div {
@@ -58,6 +60,7 @@
   padding: 0.5em;
   // border-radius: 0.4em;
   font-size: 1em;
+  width: 50%;
 }
 
 .aside div:first-child {
