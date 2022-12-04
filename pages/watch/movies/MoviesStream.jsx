@@ -71,7 +71,7 @@ export default function MoviesStream() {
             setCurrentEpisode(savedEpisode)
         }
         else {
-            setCurrentEpisode(episodeList.at(-1).id)
+            setCurrentEpisode(episodeList.at(0).id)
         }
     }, [episodeList])
 

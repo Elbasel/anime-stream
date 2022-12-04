@@ -84,11 +84,13 @@ export default function Profile() {
 
   const getInput = async () => {
     setPromptShown(true);
+    document.body.style.overflow = 'hidden'
 
     const promise = new Promise((resolve, reject) => {
       savedResolve = (value) => {
         setPromptShown(false);
         resolve(value);
+        document.body.style.overflow = 'auto'
       };
     });
 

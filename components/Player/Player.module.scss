@@ -10,3 +10,16 @@
   object-fit: contain;
 }
 
+.swipeToSeek {
+  touch-action: auto !important;
+  position: relative;
+
+}
+
+.swipeTime {
+  position: fixed;
+  right: 86x;
+  top: -90px;
+  z-index: 99;
+  font-size: 60px;
+}
