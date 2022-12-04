@@ -28,13 +28,14 @@ import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
 export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   const playerRef = useRef(null);
 
-  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [swipeOffset, setSwipeOffset] = useState(null);
+  const [ready, setReady] = useState(false);
 
   const seek = (duration) => {
     //{duration} is in seconds
     playerRef.current.currentTime += duration;
     setTimeout(() => {
-      playerRef.current.play()
+      playerRef.current.play();
     }, 500);
   };
 
@@ -52,6 +53,8 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     playerRef.current.playbackQualities =
       playerRef.current.playbackQualities.filter((q) => !(q === "0p"));
     playerRef.current.playbackQuality = "360p";
+    setReady(true);
+    showSubtitles()
   };
 
   // saved current player time to local storage
@@ -75,7 +78,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   }, []);
 
   // set subtitles to english automatically
-  useEffect(() => {
+  const showSubtitles = () => {
     const interval = setInterval(() => {
       const tracks = playerRef?.current?.textTracks;
       setTimeout(() => {
@@ -86,38 +89,38 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
         clearInterval(interval);
         setTimeout(() => {
           tracks?.forEach((t, index, arr) => {
-            console.log(t.label)
+            console.log(t.label);
             if (t.label === "English") {
-              console.log('english found')
-              playerRef.current.setCurrentTextTrack(index);
+              console.log(playerRef.current.textTracks)
+              console.log({index})
+              console.log("english found");
+              playerRef.current.setCurrentTextTrack(t.id);
               playerRef.current.setTextTrackVisibility(true);
+              // arr.length = index + 1
             }
           });
         }, 5000);
       }
     }, 1000);
-  }, []);
+  };
 
   const onSwipeStart = (p) => {
-    if (!playerRef.current?.isFullscreenActive) return
-    // console.log(p)
+    if (!playerRef.current?.isFullscreenActive) return;
     const offset = p.x / window.innerWidth;
-    console.log(Math.floor(100 * offset));
-    // console.log(p.x)
     setSwipeOffset(offset);
   };
 
   const onSwipeEnd = () => {
-    if (!playerRef.current?.isFullscreenActive) return
-    setSwipeOffset(null);
+    if (!playerRef.current?.isFullscreenActive) return;
     seek(30 * swipeOffset);
-    console.log("end", swipeOffset);
+    setSwipeOffset(null);
   };
 
   const time = playerRef.current?.currentTime + Math.floor(30 * swipeOffset);
   const minutes = Math.floor(time / 60);
-  const seconds = (time - minutes * 60 ).toFixed();
+  const seconds = (time - minutes * 60).toFixed();
 
+  if (!subtitles) return;
   return (
     <>
       <Swiper
@@ -132,22 +135,26 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           style={{ "--vm-settings-max-height": "200px" }}
           theme="dark"
           ref={playerRef}
-          onVmFullscreenChange={() => playerRef.current.blur()}
+          onVmFullscreenChange={() => playerRef.current.click()}
         >
           <Hls crossOrigin="anonymous" version="latest">
             <source data-src={url} type="application/x-mpegURL" />
-            {subtitles.map((s, i) => {
-              return (
-                <track
-                  key={i}
-                  kind="subtitles"
-                  src={s.url}
-                  label={s.lang}
-                  srcLang="en"
-                />
-              );
-            })}
+            {subtitles &&
+              ready &&
+              subtitles.map((s, i) => {
+                return (
+                  <track
+                    key={i}
+                    kind="subtitles"
+                    src={s.url}
+                    label={s.lang}
+                    srcLang="en"
+                  />
+                );
+              })}
+            {/* <track label="English" srcLang="en" kind="subtitles" src="https://cc.2cdns.com/fb/2f/fb2fc5f0697fce50df3fdf5dca64d948/fb2fc5f0697fce50df3fdf5dca64d948.vtt"/> */}
           </Hls>
+
           <DefaultUi hideOnMouseLeave noControls>
             {/* Center Controls for play/pause and changing episode */}
             <Controls
@@ -161,8 +168,10 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
                 // "margin-top": "-20px",
               }}
             >
-              {+swipeOffset > 0 && playerRef.current?.isFullscreenActive &&(
-                <div className={styles.swipeTime}>Jump to: {minutes}:{seconds}</div>
+              {swipeOffset && playerRef.current?.isFullscreenActive && (
+                <div className={styles.swipeTime}>
+                  Jump to: {minutes}:{seconds}
+                </div>
               )}
               <img
                 className={styles.icon}

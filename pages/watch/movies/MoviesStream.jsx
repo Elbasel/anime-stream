@@ -40,8 +40,9 @@ export default function MoviesStream() {
         setLoading(true)
         setStreamingUrl(null)
         setSubtitles(null)
+        const server = 'upcloud'
 
-        const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId }))
+        const response = await fetch(streamUrl + new URLSearchParams({ episodeId, mediaId, server }))
         const result = await response.json()
         if (!(result?.sources)) {
             setError('Error fetching')
@@ -91,7 +92,7 @@ export default function MoviesStream() {
             <h1 className={styles.title}>{title}</h1>
             <div className={styles.playerContainer}>
                 {error && <div className={styles.error}>{error}, <button onClick={() => window.location.reload(true)}>try again</button></div>}
-                {!loading && streamingUrl && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
+                {!loading && streamingUrl && subtitles && <Player title={title} episodeNumber={currentEpisode} url={streamingUrl} subtitles={subtitles} />}
                 {loading && !error && <div className={styles.playerLoading}><Loader /></div>}
             </div>
             {/* <div className={styles.seasonsContainer}> */}
