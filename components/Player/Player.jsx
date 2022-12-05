@@ -105,14 +105,14 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   };
 
   const onSwipeStart = (p) => {
-    if (!playerRef.current?.isFullscreenActive) return;
+    if (!playerRef.current?.isFullscreenActive || p.x < 5) return;
     const offset = p.x / window.innerWidth;
     setSwipeOffset(offset);
   };
 
   const onSwipeEnd = () => {
-    if (!playerRef.current?.isFullscreenActive) return;
-    seek(30 * swipeOffset);
+    if (!playerRef.current?.isFullscreenActive || p.x < 5) return;
+    seek(60 * swipeOffset);
     setSwipeOffset(null);
   };
 
