@@ -2,24 +2,31 @@
   // --vm-settings-max-height: 200px;
 }
 
+.player > * {
+  user-select: none;
+}
+
 .icon {
   --width: 8%;
   width: var(--width);
   height: var(--width);
   cursor: pointer;
   object-fit: contain;
+  user-select: none;
 }
 
 .swipeToSeek {
   touch-action: auto !important;
   position: relative;
+  user-select: none;
 
 }
 
 .swipeTime {
-  position: fixed;
-  right: 86x;
-  top: -90px;
+  position: absolute;
+  right: 31px;
+  top: 67px;
   z-index: 99;
-  font-size: 60px;
+  user-select: none;
+  font-size: 33px;
 }

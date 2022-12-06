@@ -27,12 +27,16 @@ import {
 import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
 export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   const playerRef = useRef(null);
+  const settingsControlRef = useRef(null);
+
+  const swipeMultiplier = 60;
 
   const [swipeOffset, setSwipeOffset] = useState(null);
   const [ready, setReady] = useState(false);
+  const [controlsShown, setControlsShown] = useState(true);
 
   const seek = (duration) => {
-    //{duration} is in seconds
+    //<duration> is in seconds
     playerRef.current.currentTime += duration;
     setTimeout(() => {
       playerRef.current.play();
@@ -54,7 +58,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
       playerRef.current.playbackQualities.filter((q) => !(q === "0p"));
     playerRef.current.playbackQuality = "360p";
     setReady(true);
-    showSubtitles()
+    setSubtitles();
   };
 
   // saved current player time to local storage
@@ -78,7 +82,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   }, []);
 
   // set subtitles to english automatically
-  const showSubtitles = () => {
+  const setSubtitles = (lang = "English") => {
     const interval = setInterval(() => {
       const tracks = playerRef?.current?.textTracks;
       setTimeout(() => {
@@ -90,13 +94,11 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
         setTimeout(() => {
           tracks?.forEach((t, index, arr) => {
             console.log(t.label);
-            if (t.label === "English") {
-              console.log(playerRef.current.textTracks)
-              console.log({index})
-              console.log("english found");
+            if (t.label.toLowerCase().includes(lang.toLowerCase())) {
+              console.log(playerRef.current.textTracks);
+              console.log({ index });
               playerRef.current.setCurrentTextTrack(t.id);
               playerRef.current.setTextTrackVisibility(true);
-              // arr.length = index + 1
             }
           });
         }, 5000);
@@ -105,20 +107,44 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   };
 
   const onSwipeStart = (p) => {
-    if (!playerRef.current?.isFullscreenActive || p.x < 5) return;
+    if (!playerRef.current?.isFullscreenActive || Math.abs(p.x) < 5) return;
     const offset = p.x / window.innerWidth;
     setSwipeOffset(offset);
   };
 
   const onSwipeEnd = () => {
-    if (!playerRef.current?.isFullscreenActive || p.x < 5) return;
-    seek(60 * swipeOffset);
+    if (!playerRef.current?.isFullscreenActive || !swipeOffset) return;
+    seek(swipeMultiplier * swipeOffset);
     setSwipeOffset(null);
   };
 
-  const time = playerRef.current?.currentTime + Math.floor(30 * swipeOffset);
-  const minutes = Math.floor(time / 60);
-  const seconds = (time - minutes * 60).toFixed();
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({top: 0})
+
+    }, 6000);
+  }, [])
+
+
+  // fix issue when controls stay shown after going fullscreen on mobile
+  const onFullScreenChange = () => {
+
+    if (!playerRef.current.isFullscreenActive) return
+    setTimeout(() => {
+      setControlsShown(false);
+    }, 1000);
+
+    setTimeout(() => {
+      setControlsShown(true);
+    }, 1100);
+  };
+  const time =
+    playerRef.current?.currentTime + Math.floor(swipeMultiplier * swipeOffset);
+
+
+  const h = Math.floor(time / 3600);
+  const m = Math.floor((time % 3600) / 60);
+  const s = ((time % 3600) % 60).toFixed().padStart(2, 0);
 
   if (!subtitles) return;
   return (
@@ -135,7 +161,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           style={{ "--vm-settings-max-height": "200px" }}
           theme="dark"
           ref={playerRef}
-          onVmFullscreenChange={() => playerRef.current.click()}
+          onVmFullscreenChange={onFullScreenChange}
         >
           <Hls crossOrigin="anonymous" version="latest">
             <source data-src={url} type="application/x-mpegURL" />
@@ -152,66 +178,64 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
                   />
                 );
               })}
-            {/* <track label="English" srcLang="en" kind="subtitles" src="https://cc.2cdns.com/fb/2f/fb2fc5f0697fce50df3fdf5dca64d948/fb2fc5f0697fce50df3fdf5dca64d948.vtt"/> */}
           </Hls>
 
-          <DefaultUi hideOnMouseLeave noControls>
-            {/* Center Controls for play/pause and changing episode */}
-            <Controls
-              hideOnMouseLeave
-              align="center"
-              pin="center"
-              justify="space-evenly"
-              style={{
-                "--vm-controls-spacing": "80px",
-                "--vm-control-icon-size": "80px",
-                // "margin-top": "-20px",
-              }}
-            >
+          {controlsShown && (
+            <DefaultUi noControls>
               {swipeOffset && playerRef.current?.isFullscreenActive && (
                 <div className={styles.swipeTime}>
-                  Jump to: {minutes}:{seconds}
+                  Jump to {h > 0 && h + ":"}
+                  {m}:{s}
                 </div>
               )}
-              <img
-                className={styles.icon}
-                src={replayIcon.src}
-                onClick={() => seek(-5)}
-              />
+              {/* Center Controls for play/pause and changing episode */}
+              <Controls
+                activeDuration={2000}
+                align="center"
+                pin="center"
+                justify="space-evenly"
+                style={{
+                  "--vm-controls-spacing": "80px",
+                  "--vm-control-icon-size": "80px",
+                  // "margin-top": "-20px",
+                }}
+              >
+                <img
+                  className={styles.icon}
+                  src={replayIcon.src}
+                  onClick={() => seek(-5)}
+                />
 
-              <PlaybackControl hideOnMouseLeave hideTooltip keys="k/ " />
-              <img
-                className={styles.icon}
-                src={forwardIcon.src}
-                onClick={() => seek(5)}
-              />
-            </Controls>
+                <PlaybackControl hideTooltip keys="k/ " />
+                <img
+                  className={styles.icon}
+                  src={forwardIcon.src}
+                  onClick={() => seek(5)}
+                />
+              </Controls>
 
-            <Scrim gradient="up" hideOnMouseLeave />
+              <Scrim gradient="up" />
 
-            <Controls
-              hideOnMouseLeave
-              pin="bottomLeft"
-              direction={"column-reverse"}
-            >
-              <ControlGroup hideOnMouseLeave space={"top"}>
-                <PlaybackControl keys="k/ " tooltipDirection="right" />
-                <VolumeControl />
+              <Controls pin="bottomLeft" direction={"column-reverse"}>
+                <ControlGroup space={"top"}>
+                  <PlaybackControl keys="k/ " tooltipDirection="right" />
+                  <VolumeControl />
 
-                <TimeProgress />
-                <ControlSpacer />
-                <CaptionControl />
-                <PipControl keys="i" />
-                <SettingsControl />
+                  <TimeProgress />
+                  <ControlSpacer />
+                  <CaptionControl />
+                  <PipControl keys="i" />
+                  <SettingsControl ref={settingsControlRef} />
 
-                <FullscreenControl hideOnMouseLeave tooltipDirection="left" />
-              </ControlGroup>
+                  <FullscreenControl tooltipDirection="left" />
+                </ControlGroup>
 
-              <ControlGroup hideOnMouseLeave>
-                <ScrubberControl />
-              </ControlGroup>
-            </Controls>
-          </DefaultUi>
+                <ControlGroup>
+                  <ScrubberControl />
+                </ControlGroup>
+              </Controls>
+            </DefaultUi>
+          )}
         </VimePlayer>
       </Swiper>
     </>

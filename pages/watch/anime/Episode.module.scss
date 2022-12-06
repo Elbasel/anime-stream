@@ -29,9 +29,10 @@
 }
 
 .playerWrapper {
-  width: 80%;
-  height: 300px;
-  margin: 0 auto;
+  // width: 80%;
+  // height: 300px;
+  // margin: 0 auto;
+  padding-inline: 20px;
 }
 
 .errorMessage {
@@ -41,8 +42,8 @@
   line-height: 30vh;
 }
 
-@media screen and (min-width: 600px) {
-  .playerWrapper {
-    width: 35%;
-  }
-}
+// @media screen and (min-width: 600px) {
+//   .playerWrapper {
+//     width: 35%;
+//   }
+// }

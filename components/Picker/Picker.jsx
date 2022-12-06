@@ -7,7 +7,10 @@ export default function Picker({ options = [], onValueChange, selectedValue }) {
 
   const selectedRef = useRef(null)
   useEffect(() => {
-    selectedRef.current?.scrollIntoView({behavior: 'smooth'})
+    setTimeout(() => {
+      selectedRef.current?.scrollIntoView({behavior: 'smooth'})
+
+    }, 3000);
   }, [selectedRef.current]);
 
 
