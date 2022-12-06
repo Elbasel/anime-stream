@@ -120,9 +120,9 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.scrollTo({top: 0})
+      window.scrollTo({top: 0, behavior: "smooth"})
 
-    }, 6000);
+    }, 4000);
   }, [])
 
 
