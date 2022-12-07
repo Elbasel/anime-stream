@@ -199,7 +199,7 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
           </Hls>
 
           {/* {controlsShown && ( */}
-          <DefaultUi {...UiProps} noControls>
+          <DefaultUi noControls>
             {swipeOffset && playerRef.current?.isFullscreenActive && (
               <div className={styles.swipeTime}>
                 Jump to {h > 0 && h + ":"}
@@ -219,37 +219,39 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
               }}
             >
               <img
+              {...UiProps} 
                 className={styles.icon}
                 src={replayIcon.src}
                 onClick={() => seek(-5)}
               />
 
-              <PlaybackControl hideTooltip keys="k/ " />
+              <PlaybackControl {...UiProps}  hideTooltip keys="k/ " />
               <img
+              {...UiProps} 
                 className={styles.icon}
                 src={forwardIcon.src}
                 onClick={() => seek(5)}
               />
             </Controls>
 
-            <Scrim gradient="up" />
+            <Scrim gradient="up" {...UiProps}  />
 
             <Controls pin="bottomLeft" direction={"column-reverse"}>
               <ControlGroup space={"top"}>
-                <PlaybackControl keys="k/ " tooltipDirection="right" />
-                <VolumeControl />
+                <PlaybackControl {...UiProps}  keys="k/ " tooltipDirection="right" />
+                <VolumeControl {...UiProps}  />
 
-                <TimeProgress />
-                <ControlSpacer />
-                <CaptionControl />
-                <PipControl keys="i" />
-                <SettingsControl ref={settingsControlRef} />
+                <TimeProgress {...UiProps} />
+                <ControlSpacer {...UiProps}  />
+                <CaptionControl {...UiProps}  />
+                <PipControl {...UiProps}  keys="i" />
+                <SettingsControl {...UiProps}  ref={settingsControlRef} />
 
-                <FullscreenControl tooltipDirection="left" />
+                <FullscreenControl {...UiProps}  tooltipDirection="left" />
               </ControlGroup>
 
               <ControlGroup>
-                <ScrubberControl />
+                <ScrubberControl {...UiProps} />
               </ControlGroup>
             </Controls>
           </DefaultUi>
