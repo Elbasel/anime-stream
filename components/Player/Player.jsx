@@ -27,6 +27,7 @@ import {
 import { getFromLocalStorage, saveToLocalStorage } from "util/localStorage";
 export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
   const playerRef = useRef(null);
+  const containerRef = useRef(null);
   const settingsControlRef = useRef(null);
 
   const swipeMultiplier = 60;
@@ -59,6 +60,25 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
     playerRef.current.playbackQuality = "360p";
     setReady(true);
     setSubtitles();
+
+    const toggleControls = (e) => {
+      console.log("clicked");
+      console.log(e.target.tagName);
+      const clickedTagName = e.target.tagName
+      const tagNames = [
+        "VM-PLAYBACK-CONTROL",
+        "VM-VOLUME-CONTROL",
+        "VM-FULLSCREEN-CONTROL",
+        "VM-SETTINGS-CONTROL",
+        "IMG",
+        "VM-PIP-CONTROL",
+        
+      ];
+      if (tagNames.includes(clickedTagName.trim())) return
+      setControlsShown((prev) => !prev);
+    };
+
+    containerRef.current.addEventListener("click", toggleControls);
   };
 
   // saved current player time to local storage
@@ -120,35 +140,33 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.scrollTo({top: 0, behavior: "smooth"})
-
-    }, 4000);
-  }, [])
-
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 3100);
+  }, []);
 
   // fix issue when controls stay shown after going fullscreen on mobile
   const onFullScreenChange = () => {
-
-    if (!playerRef.current.isFullscreenActive) return
+    if (!playerRef.current.isFullscreenActive) return;
     setTimeout(() => {
       setControlsShown(false);
     }, 1000);
 
-    setTimeout(() => {
-      setControlsShown(true);
-    }, 1100);
+    // setTimeout(() => {
+    //   setControlsShown(true);
+    // }, 1100);
   };
   const time =
     playerRef.current?.currentTime + Math.floor(swipeMultiplier * swipeOffset);
-
 
   const h = Math.floor(time / 3600);
   const m = Math.floor((time % 3600) / 60);
   const s = ((time % 3600) % 60).toFixed().padStart(2, 0);
 
   if (!subtitles) return;
+
+  const UiProps = controlsShown ? {} : { hidden: true };
   return (
-    <>
+    <div ref={containerRef}>
       <Swiper
         className={styles.swipeToSeek}
         detectMouse
@@ -180,64 +198,64 @@ export const Player = ({ url, title, episodeNumber, subtitles = [] }) => {
               })}
           </Hls>
 
-          {controlsShown && (
-            <DefaultUi noControls>
-              {swipeOffset && playerRef.current?.isFullscreenActive && (
-                <div className={styles.swipeTime}>
-                  Jump to {h > 0 && h + ":"}
-                  {m}:{s}
-                </div>
-              )}
-              {/* Center Controls for play/pause and changing episode */}
-              <Controls
-                activeDuration={2000}
-                align="center"
-                pin="center"
-                justify="space-evenly"
-                style={{
-                  "--vm-controls-spacing": "80px",
-                  "--vm-control-icon-size": "80px",
-                  // "margin-top": "-20px",
-                }}
-              >
-                <img
-                  className={styles.icon}
-                  src={replayIcon.src}
-                  onClick={() => seek(-5)}
-                />
+          {/* {controlsShown && ( */}
+          <DefaultUi {...UiProps} noControls>
+            {swipeOffset && playerRef.current?.isFullscreenActive && (
+              <div className={styles.swipeTime}>
+                Jump to {h > 0 && h + ":"}
+                {m}:{s}
+              </div>
+            )}
+            {/* Center Controls for play/pause and changing episode */}
+            <Controls
+              activeDuration={2000}
+              align="center"
+              pin="center"
+              justify="space-evenly"
+              style={{
+                "--vm-controls-spacing": "80px",
+                "--vm-control-icon-size": "80px",
+                // "margin-top": "-20px",
+              }}
+            >
+              <img
+                className={styles.icon}
+                src={replayIcon.src}
+                onClick={() => seek(-5)}
+              />
 
-                <PlaybackControl hideTooltip keys="k/ " />
-                <img
-                  className={styles.icon}
-                  src={forwardIcon.src}
-                  onClick={() => seek(5)}
-                />
-              </Controls>
+              <PlaybackControl hideTooltip keys="k/ " />
+              <img
+                className={styles.icon}
+                src={forwardIcon.src}
+                onClick={() => seek(5)}
+              />
+            </Controls>
 
-              <Scrim gradient="up" />
+            <Scrim gradient="up" />
 
-              <Controls pin="bottomLeft" direction={"column-reverse"}>
-                <ControlGroup space={"top"}>
-                  <PlaybackControl keys="k/ " tooltipDirection="right" />
-                  <VolumeControl />
+            <Controls pin="bottomLeft" direction={"column-reverse"}>
+              <ControlGroup space={"top"}>
+                <PlaybackControl keys="k/ " tooltipDirection="right" />
+                <VolumeControl />
 
-                  <TimeProgress />
-                  <ControlSpacer />
-                  <CaptionControl />
-                  <PipControl keys="i" />
-                  <SettingsControl ref={settingsControlRef} />
+                <TimeProgress />
+                <ControlSpacer />
+                <CaptionControl />
+                <PipControl keys="i" />
+                <SettingsControl ref={settingsControlRef} />
 
-                  <FullscreenControl tooltipDirection="left" />
-                </ControlGroup>
+                <FullscreenControl tooltipDirection="left" />
+              </ControlGroup>
 
-                <ControlGroup>
-                  <ScrubberControl />
-                </ControlGroup>
-              </Controls>
-            </DefaultUi>
-          )}
+              <ControlGroup>
+                <ScrubberControl />
+              </ControlGroup>
+            </Controls>
+          </DefaultUi>
+          {/* )} */}
         </VimePlayer>
       </Swiper>
-    </>
+    </div>
   );
 };
